@@ -1,0 +1,7 @@
+mysql -h 10.10.15.122 -u te31431 -p 
+
+Fedora:
+mongo 10.10.8.119/te31431_db -u te31431 -p
+
+Ubuntu:
+mongosh 10.10.8.119/te31431_db -u te31431 -p
