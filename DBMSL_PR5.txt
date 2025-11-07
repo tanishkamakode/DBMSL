@@ -1,26 +1,6 @@
 PL/SQL Simple Procedure:
 
-1. Greeting message
-Delimiter //
-Create procedure my_greeting(INOUT person_name varchar(20))
-BEGIN
-Declare temp_person_name varchar(20);
-Set temp_person_name = person_name;
-Select concat("Hello, ", temp_person_name, "!");
-Select emp_fname into person_name from employee where emp_id = 1003;
-END
-//
-
-Delimiter ;
-Set @person_name = "Tanishka";
-Call my_greeting(@person_name);
-	> Hello, Tanishka
-Select @person_name
-	> Kedar
-
-
-
-2. Proc_Grade procedure
+1. Proc_Grade procedure
 create table stud_marks(
 	name varchar(20) not null,
 	marks integer not null
