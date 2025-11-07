@@ -1,29 +1,4 @@
-Exception Handling:
-Syntax:
-DECLARE handler_type HANDLER FOR condition
-	BEGIN
-	-- Body
-	END
-//
-
-Example:
-1. Insert exception
-Delimiter //
-
-Create procedure insert_info()
-Begin
-	Declare continue handler for sqlexception
-	begin
-		select "An error occurred while inserting" as Message;
-	end
-	
-	insert into student_info values(1, "Tanishka", 96);
-End
-//
-Delimiter ;
-Call insert_info();
-
-2. Borrower and Fine
+1. Borrower and Fine
 Create table borrower(
 	rollno integer,
 	name varchar(20) not null,
