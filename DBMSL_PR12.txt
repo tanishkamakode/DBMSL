@@ -1,40 +1,43 @@
-package mongodb_connection;
+package exam_mongodb;
 
 import org.bson.Document;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 
-public class Demo {
+public class Sample {
 
 	public static void main(String[] args) {
 		String connectionString = "mongodb://localhost:27017";
 		MongoClient mongoClient = MongoClients.create(connectionString);
-		System.out.println("Connection established successfully!");
+		System.out.println("Connection Established Successfully!");
 		
 		MongoDatabase database = mongoClient.getDatabase("PICT");
 		MongoCollection<Document> collection = database.getCollection("student");
 		
-		// Create
-		Document doc1 = new Document("rollno", 1).append("name", "Kedar").append("marks", 96);
-		collection.insertOne(doc1);
-		System.out.println("Inserted successfully!");
+		// create
+		Document doc = new Document("rollno", 19).append("name", "Tanvi").append("marks", 94);
+		collection.insertOne(doc);
+		System.out.println("Inserted Successfully!");
 		
-		// Read
-		System.out.println("Documents in collection: ");
-		for(Document doc: collection.find()) {
-			System.out.println(doc.toJson());
+		// read
+		System.out.println("STUDENT RECORDS: ");
+		for(Document doc1: collection.find()) {
+			System.out.println(doc1.toJson());
 		}
 		
-		// Update
-		collection.updateOne(Filters.eq("name", "Tanishka"), Updates.set("marks", 94));
-		System.out.println("Updated successfully!");
+		//update
+		collection.updateOne(Filters.eq("rollno", 19), Updates.set("marks", 96));
+		System.out.println("Updated Successfully!");
 		
-		// Delete
-		collection.deleteOne(Filters.eq("name", "Tanishka"));
-		System.out.println("Deleted successfully!");
+		// delete
+		collection.deleteOne(Filters.eq("name", "Kedar"));
+		System.out.println("Deleted Successfully!");
+
 	}
+
 }
