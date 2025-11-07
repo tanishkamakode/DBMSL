@@ -65,12 +65,148 @@ Answers:
 5. delete from dept where dept_location = 'Mumbai';
 6. select proj_name from project where proj_location = 'Pune';
 7. select * from project where proj_cost between 100000 and 500000;
-8. select * from project where proj_cost = (select max(proj_cost) from project); select avg(proj_cost) as Avg_cost from project;
+8. select max(proj_cost) as maxcost, avg(proj_cost) as avgcost from project;
 9. select emp_id, emp_fname, emp_lname from employee order by emp_lname desc;
 10. select * from project where proj_year in (2004, 2005, 2007); 
+
+ANDDD:
+-- Simple View: Employee details with department
+CREATE VIEW EmployeeDeptView AS
+SELECT e.Emp_id, e.Emp_fname, e.Emp_lname, d.Dept_name, e.Emp_Position, e.Emp_salary
+FROM Employee e
+JOIN Dept d ON e.Dept_id = d.Dept_id;
+
+-- Index on Employee salary
+CREATE INDEX idx_salary ON Employee(Emp_salary);
+
+-- Sequence (MySQL 8+)
+CREATE SEQUENCE emp_seq START WITH 1 INCREMENT BY 1;
+
+-- Synonym alternative in MySQL: using ALIAS through VIEW
+CREATE VIEW EmployeeSynonym AS SELECT * FROM Employee;
 
 OTHERS:
 View: Simple (Single table), Complex(Multiple tables). Simple is updatable, complex is read only.
 Index: Primary key index and unique key index are inbuilt, Simple(Single column) and complex(multiple column) are manual index.
 - Synonym doesn't exist in mysql, alternative: alias
 - Sequence doesn't exist in mysql, alternative: auto_increment
+
+STUDENT SCHEMA
+-- PlacementDrive table
+CREATE TABLE PlacementDrive (
+    Drive_id INT PRIMARY KEY,
+    Pcompany_name VARCHAR(50) NOT NULL,
+    Package DECIMAL(10,2),
+    Location VARCHAR(50)
+);
+
+-- Training table
+CREATE TABLE Training (
+    T_id INT PRIMARY KEY,
+    Tcompany_name VARCHAR(50),
+    TFee DECIMAL(10,2),
+    T_year INT
+);
+
+-- Student table
+CREATE TABLE Student (
+    s_id INT PRIMARY KEY,
+    Drive_id INT,
+    T_id INT,
+    s_name VARCHAR(50),
+    CGPA DECIMAL(3,2),
+    s_branch VARCHAR(30),
+    dob DATE,
+    FOREIGN KEY (Drive_id) REFERENCES PlacementDrive(Drive_id) ON DELETE CASCADE,
+    FOREIGN KEY (T_id) REFERENCES Training(T_id) ON DELETE CASCADE
+);
+
+-- Simple View: Student details with PlacementDrive info
+CREATE VIEW StudentDriveView AS
+SELECT s.s_id, s.s_name, s.CGPA, s.s_branch, p.Pcompany_name, p.Package, p.Location
+FROM Student s
+JOIN PlacementDrive p ON s.Drive_id = p.Drive_id;
+
+-- Index on CGPA for faster queries
+CREATE INDEX idx_cgpa ON Student(CGPA);
+
+-- Sequence (MySQL 8+)
+CREATE SEQUENCE student_seq START WITH 1 INCREMENT BY 1;
+
+-- Synonym alternative in MySQL: using VIEW as alias
+CREATE VIEW StudentSynonym AS SELECT * FROM Student;
+
+
+-- Insert PlacementDrive data
+INSERT INTO PlacementDrive VALUES
+(1,'TCS',40000,'Pune'),
+(2,'Infosys',50000,'Mumbai'),
+(3,'Wipro',45000,'Pune'),
+(4,'Accenture',55000,'Delhi');
+
+-- Insert Training data
+INSERT INTO Training VALUES
+(101,'SkillHub',20000,2019),
+(102,'CodeCraft',25000,2020),
+(103,'TechGuru',30000,2021),
+(104,'LearnTech',22000,2019);
+
+-- Insert Student data
+INSERT INTO Student VALUES
+(201,1,101,'Ananya',8.5,'Computer','2000-03-15'),
+(202,2,102,'Devansh',7.8,'IT','1999-06-21'),
+(203,1,103,'Amit',9.1,'Computer','2001-12-10'),
+(204,3,104,'Deepika',6.9,'IT','2000-11-05'),
+(205,2,101,'Aryan',7.5,'Computer','2000-01-19'),
+(206,4,102,'Diya',8.0,'IT','2001-02-28'),
+(207,3,103,'Akash',6.8,'Computer','1998-08-15'),
+(208,1,104,'Aditya',7.2,'IT','1999-09-12'),
+(209,2,101,'Anjali',8.3,'Computer','2000-07-22'),
+(210,4,102,'Dhruv',7.9,'IT','2001-05-30');
+
+1. SELECT *
+FROM Student
+WHERE s_branch IN ('Computer','IT')
+  AND (s_name LIKE 'A%' OR s_name LIKE 'D%');
+
+2. SELECT COUNT(DISTINCT Pcompany_name) AS NumCompanies
+FROM PlacementDrive;
+
+3. UPDATE Training
+SET TFee = TFee * 1.15
+WHERE T_year = 2019;
+
+4. DELETE FROM Student
+WHERE CGPA < 7;
+
+5. SELECT Pcompany_name
+FROM PlacementDrive
+WHERE Location IN ('Pune','Mumbai');
+
+6. SELECT s_name
+FROM Student s
+JOIN Training t ON s.T_id = t.T_id
+WHERE t.T_year IN (2019,2021)
+GROUP BY s_name
+HAVING COUNT(DISTINCT t.T_year) = 2;
+
+7. -- Maximum CGPA
+SELECT s_name, CGPA
+FROM Student
+WHERE CGPA = (SELECT MAX(CGPA) FROM Student);
+
+-- CGPA between 7 and 9
+SELECT s_name, CGPA
+FROM Student
+WHERE CGPA BETWEEN 7 AND 9;
+
+8. SELECT s.s_name, s.T_id, t.TFee
+FROM Student s
+JOIN Training t ON s.T_id = t.T_id
+ORDER BY t.TFee DESC;
+
+9. SELECT p.Pcompany_name, s.s_name, p.Location, p.Package
+FROM PlacementDrive p
+JOIN Student s ON p.Drive_id = s.Drive_id
+WHERE p.Package IN (30000,40000,50000);
+
