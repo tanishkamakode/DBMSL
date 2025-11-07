@@ -1,0 +1,76 @@
+EMPLOYEE SCHEMA
+
+TABLES CREATION:
+Dept table:
+create table dept(
+	dept_id integer primary key auto_increment,
+	dept_name varchar(20) not null,
+	dept_location varchar(20)
+) auto_increment = 1;
+(alter table dept modify dept_id integer auto_increment;)
+
+Employee table:
+create table employee(
+	emp_id integer primary key auto_increment,
+	dept_id integer not null,
+	emp_fname varchar(20) not null,
+	emp_lname varchar(20) not null,
+	emp_position varchar(20),
+	emp_salary decimal(8, 2) check (emp_salary >= 20000),
+	emp_joindate date,
+	foreign key (dept_id) references dept(dept_id) on delete cascade
+) auto_increment=1001;
+(alter table employee modify emp_id integer auto_increment;
+alter table employee auto_increment = 1001;)
+
+Project table:
+create table project(
+	proj_id integer primary key auto_increment,
+	dept_id integer not null,
+	proj_name varchar(20) not null,
+	proj_location varchar(20),
+	proj_cost decimal(8,2),
+	proj_year year,
+	foreign key (dept_id) references dept(dept_id) on delete cascade
+) auto_increment=101;
+(alter table project modify proj_id integer auto_increment;
+alter table project auto_increment = 101;)
+
+RECORDS INSERTION:
+insert into dept values(1, "IT", "Pune");
+insert into dept values(2, "Computer", "Bengaluru");
+insert into dept values(3, "Sales", "Chennai");
+insert into dept values(4, "Marketing", "Delhi");
+insert into dept values(5, "HR", "Noida"); 
+
+insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Tanishka", "Makode", "Designer", 90000, "2027-07-07");
+insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Ronit", "Vithaldas", "Designer", 100000, "2026-07-07");
+insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(1, "Kedar", "Makode", "Devops", 990000, "2024-05-07");
+insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(4, "Piyush", "Patil", "Sr. Market", 40000, "2021-09-02");
+insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(5, "Harry", "Chaus", "HR lead", 30000, "2009-10-07");
+insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Rani", "Gauda", "Sr. SDE", 120000, "1980-07-07");
+insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Jay", "Mehak", "Lead SDE", 150000, "2026-07-07");
+
+insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(1, "ITDeals", "Pune", 100000, 2000);
+insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(2, "CompWhiz", "Mumbai", 150000, 2003);
+insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(1, "IT-devs", "Pune", 90000, 2001);
+insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(5, "HR-Real", "Bangalore", 300000, 2005);
+insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(3, "Salezzz", "Mumbai", 250000, 2004);
+
+Answers:
+1. (Insert 10 records...)
+2. select e.* from employee e JOIN dept d ON e.dept_id = d.dept_id where d.dept_name in ('IT', 'Computer') AND e.emp_fname LIKE 'P%' OR e.emp_fname LIKE 'H%';
+3. select count(DISTINCT emp_position) AS total_positions from employee;
+4. update employee set emp_salary = (emp_salary * 0.10) + emp_salary where year(emp_joindate) < 1985;
+5. delete from dept where dept_location = 'Mumbai';
+6. select proj_name from project where proj_location = 'Pune';
+7. select * from project where proj_cost between 100000 and 500000;
+8. select * from project where proj_cost = (select max(proj_cost) from project); select avg(proj_cost) as Avg_cost from project;
+9. select emp_id, emp_fname, emp_lname from employee order by emp_lname desc;
+10. select * from project where proj_year in (2004, 2005, 2007); 
+
+OTHERS:
+View: Simple (Single table), Complex(Multiple tables). Simple is updatable, complex is read only.
+Index: Primary key index and unique key index are inbuilt, Simple(Single column) and complex(multiple column) are manual index.
+- Synonym doesn't exist in mysql, alternative: alias
+- Sequence doesn't exist in mysql, alternative: auto_increment

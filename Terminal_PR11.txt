@@ -1,0 +1,181 @@
+tanishka@Tanishka ~ % mongosh
+Current Mongosh Log ID:	690cd9e33854a16e2de4c2e6
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+Using MongoDB:		8.2.0
+Using Mongosh:		2.5.8
+mongosh 2.5.9 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-11-06T20:01:20.493+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> var mapFunction = function(){
+| 	emit(this.emp_city, this.emp_salary);
+| };
+
+test> var reduceFunction = function(key, value){
+| 	return Array.sum(value);
+| };
+
+test> db.Employee.mapReduce(mapFunction, reduceFunction, {out: "salary_by_city"});
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://mongodb.com/docs/manual/core/map-reduce for details.
+{ result: 'salary_by_city', ok: 1 }
+test> db.salary_by_city.find().pretty();
+
+test> show collections;
+salary_by_city
+test> exit
+tanishka@Tanishka ~ % clear
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tanishka@Tanishka ~ % mongosh
+Current Mongosh Log ID:	690cda5ee57d6830d1305395
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+Using MongoDB:		8.2.0
+Using Mongosh:		2.5.8
+mongosh 2.5.9 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-11-06T20:01:20.493+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs;
+PICT    188.00 KiB
+admin    40.00 KiB
+config  108.00 KiB
+local    64.00 KiB
+test      8.00 KiB
+test> use PICT;
+switched to db PICT
+PICT> show collections;
+Employee
+student
+PICT> var mapFunction = function(){
+| 	emit(this.emp_city, this.emp_salary);
+| };
+
+PICT> var reduceFunction = function(key, value){
+| 	return Array.sum(value);
+| };
+
+PICT> db.Employee.mapReduce(mapFunction, reduceFunction, {out: "salary_by_city"});
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://mongodb.com/docs/manual/core/map-reduce for details.
+{ result: 'salary_by_city', ok: 1 }
+PICT> db.salary_by_city.find().pretty();
+[
+  { _id: 'Hyderabad', value: 48000 },
+  { _id: 'Pune', value: 88000 },
+  { _id: 'Bangalore', value: 177000 },
+  { _id: 'Mumbai', value: 88000 },
+  { _id: 'Chennai', value: 40000 },
+  { _id: 'Delhi', value: 42000 }
+]
+PICT> var mapFunction = function(){
+| 	emit(this.emp_city, this.emp_salary);
+| };
+
+PICT> var reduceFunction = function(key, value){
+| 	return Math.max.apply(null, value);
+| };
+
+PICT> db.Employee.mapReduce(mapFunction, reduceFunction, {out: "max_by_city"});
+{ result: 'max_by_city', ok: 1 }
+PICT> db.max_by_city.find().pretty();
+[
+  { _id: 'Delhi', value: 42000 },
+  { _id: 'Pune', value: 45000 },
+  { _id: 'Bangalore', value: 70000 },
+  { _id: 'Mumbai', value: 47000 },
+  { _id: 'Chennai', value: 40000 },
+  { _id: 'Hyderabad', value: 48000 }
+]
+PICT> var mapFunction = function(){
+| 	emit(this.emp_city, this.emp_salary);
+| };
+
+PICT> var reduceFunction = function(key, value){
+| 	return Math.min.apply(null, value);
+| };
+| 
+
+PICT> db.Employee.mapReduce(mapFunction, reduceFunction, {out: "min_by_city"});
+{ result: 'min_by_city', ok: 1 }
+PICT> db.min_by_city.find().pretty();
+[
+  { _id: 'Delhi', value: 42000 },
+  { _id: 'Pune', value: 43000 },
+  { _id: 'Bangalore', value: 52000 },
+  { _id: 'Mumbai', value: 41000 },
+  { _id: 'Chennai', value: 40000 },
+  { _id: 'Hyderabad', value: 48000 }
+]
+PICT> var mapFunction = function(){
+| 	emit(this.emp_city, 1);
+| };
+
+PICT> var reduceFunction = function(key, value){
+| 	return Array.sum(value);
+| };
+
+PICT> db.Employee.mapReduce(mapFunction, reduceFunction, {out: "count_by_city"});
+{ result: 'count_by_city', ok: 1 }
+PICT> db.count_by_city.find().pretty();
+[
+  { _id: 'Mumbai', value: 2 },
+  { _id: 'Bangalore', value: 3 },
+  { _id: 'Pune', value: 2 },
+  { _id: 'Chennai', value: 1 },
+  { _id: 'Hyderabad', value: 1 },
+  { _id: 'Delhi', value: 1 }
+]
+PICT> var mapFunction = function(){
+| 	emit(this.emp_position, 1);
+| };
+
+PICT> var reduceFunction = function(key, value){
+| 	return Array.sum(value);
+| };
+
+PICT> db.Employee.mapReduce(mapFunction, reduceFunction, {out: "count_by_position"});
+{ result: 'count_by_position', ok: 1 }
+PICT> db.count_by_position.find().pretty();
+[
+  { _id: 'Graphic Designer Intern', value: 1 },
+  { _id: 'Data Analyst Intern', value: 1 },
+  { _id: 'Software Engineer Intern', value: 1 },
+  { _id: 'Front-End Developer Intern', value: 1 },
+  { _id: 'Back-End Developer Intern', value: 1 },
+  { _id: 'UI/UX Design Intern', value: 1 },
+  { _id: 'Content Writer Intern', value: 1 },
+  { _id: 'Product Management Intern', value: 1 },
+  { _id: 'Marketing Intern', value: 1 },
+  { _id: 'HR Intern', value: 1 }
+]
+PICT> 

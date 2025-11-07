@@ -1,0 +1,490 @@
+Last login: Thu Nov  6 18:18:45 on ttys000
+tanishka@Tanishka ~ % mongosh
+Current Mongosh Log ID:	690cb1240945127043332e95
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+tanishka@Tanishka ~ % brew services start mongodb-community
+==> Successfully started `mongodb-community` (label: homebrew.mxcl.mongodb-community)
+tanishka@Tanishka ~ % clear                                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tanishka@Tanishka ~ % mongosh                              
+Current Mongosh Log ID:	690cb13c89469420f74b9d7c
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+Using MongoDB:		8.2.0
+Using Mongosh:		2.5.8
+mongosh 2.5.9 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-11-06T20:01:20.493+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs;
+PICT    64.00 KiB
+admin   40.00 KiB
+config  36.00 KiB
+local   72.00 KiB
+test> use PICT;
+switched to db PICT
+PICT> show collections;
+student
+PICT> db.createCollection("Employee");
+{ ok: 1 }
+PICT> show collections;
+Employee
+student
+PICT> db.Employee.insertOne({
+| emp_id: 101,
+| emp_name: "Tanishka",
+| emp_age: 20,
+| emp_position: "UI/UX Design Intern",
+| emp_salary: 50000,
+| emp_city: "Bangalore"
+| });
+{
+  acknowledged: true,
+  insertedId: ObjectId('690cb2a089469420f74b9d7d')
+}
+PICT> db.Employee.find().pretty();
+[
+  {
+    _id: ObjectId('690cb2a089469420f74b9d7d'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000,
+    emp_city: 'Bangalore'
+  }
+]
+PICT> db.Employee.insertMany([
+| {
+|     "emp_id": 101,
+|     "emp_name": "Tanishka",
+|     "emp_age": 20,
+|     "emp_position": "UI/UX Design Intern",
+|     "emp_salary": 50000,
+|     "emp_city": "Bangalore"
+|   },
+|   {
+|     "emp_id": 102,
+|     "emp_name": "Ronit",
+|     "emp_age": 22,
+|     "emp_position": "Front-End Developer Intern",
+|     "emp_salary": 45000,
+|     "emp_city": "Pune"
+|   },
+|   {
+|     "emp_id": 103,
+|     "emp_name": "Kedar",
+|     "emp_age": 23,
+|     "emp_position": "Back-End Developer Intern",
+|     "emp_salary": 47000,
+|     "emp_city": "Mumbai"
+|   },
+|   {
+|     "emp_id": 104,
+|     "emp_name": "Devashri",
+|     "emp_age": 21,
+|     "emp_position": "Graphic Designer Intern",
+|     "emp_salary": 42000,
+|     "emp_city": "Delhi"
+|   },
+|   {
+|     "emp_id": 105,
+|     "emp_name": "Seegasha",
+|     "emp_age": 24,
+|     "emp_position": "Product Management Intern",
+|     "emp_salary": 55000,
+|     "emp_city": "Bangalore"
+|   },
+|   {
+|     "emp_id": 106,
+|     "emp_name": "Shreya",
+|     "emp_age": 22,
+|     "emp_position": "Marketing Intern",
+|     "emp_salary": 40000,
+|     "emp_city": "Chennai"
+|   },
+|   {
+|     "emp_id": 107,
+|     "emp_name": "Sai",
+|     "emp_age": 23,
+|     "emp_position": "Data Analyst Intern",
+|     "emp_salary": 48000,
+|     "emp_city": "Hyderabad"
+|   },
+|   {
+|     "emp_id": 108,
+|     "emp_name": "Kanchan",
+|     "emp_age": 21,
+|     "emp_position": "HR Intern",
+|     "emp_salary": 43000,
+|     "emp_city": "Pune"
+|   },
+|   {
+|     "emp_id": 109,
+|     "emp_name": "Jay",
+|     "emp_age": 25,
+|     "emp_position": "Software Engineer Intern",
+|     "emp_salary": 52000,
+|     "emp_city": "Bangalore"
+|   },
+|   {
+|     "emp_id": 110,
+|     "emp_name": "Ishita",
+|     "emp_age": 22,
+|     "emp_position": "Content Writer Intern",
+|     "emp_salary": 41000,
+|     "emp_city": "Mumbai"
+|   }
+| ]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('690cb4eb89469420f74b9d7e'),
+    '1': ObjectId('690cb4eb89469420f74b9d7f'),
+    '2': ObjectId('690cb4eb89469420f74b9d80'),
+    '3': ObjectId('690cb4eb89469420f74b9d81'),
+    '4': ObjectId('690cb4eb89469420f74b9d82'),
+    '5': ObjectId('690cb4eb89469420f74b9d83'),
+    '6': ObjectId('690cb4eb89469420f74b9d84'),
+    '7': ObjectId('690cb4eb89469420f74b9d85'),
+    '8': ObjectId('690cb4eb89469420f74b9d86'),
+    '9': ObjectId('690cb4eb89469420f74b9d87')
+  }
+}
+PICT> db.Employee.find().pretty();
+[
+  {
+    _id: ObjectId('690cb2a089469420f74b9d7d'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7e'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7f'),
+    emp_id: 102,
+    emp_name: 'Ronit',
+    emp_age: 22,
+    emp_position: 'Front-End Developer Intern',
+    emp_salary: 45000,
+    emp_city: 'Pune'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d80'),
+    emp_id: 103,
+    emp_name: 'Kedar',
+    emp_age: 23,
+    emp_position: 'Back-End Developer Intern',
+    emp_salary: 47000,
+    emp_city: 'Mumbai'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d81'),
+    emp_id: 104,
+    emp_name: 'Devashri',
+    emp_age: 21,
+    emp_position: 'Graphic Designer Intern',
+    emp_salary: 42000,
+    emp_city: 'Delhi'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d82'),
+    emp_id: 105,
+    emp_name: 'Seegasha',
+    emp_age: 24,
+    emp_position: 'Product Management Intern',
+    emp_salary: 55000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d83'),
+    emp_id: 106,
+    emp_name: 'Shreya',
+    emp_age: 22,
+    emp_position: 'Marketing Intern',
+    emp_salary: 40000,
+    emp_city: 'Chennai'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d84'),
+    emp_id: 107,
+    emp_name: 'Sai',
+    emp_age: 23,
+    emp_position: 'Data Analyst Intern',
+    emp_salary: 48000,
+    emp_city: 'Hyderabad'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d85'),
+    emp_id: 108,
+    emp_name: 'Kanchan',
+    emp_age: 21,
+    emp_position: 'HR Intern',
+    emp_salary: 43000,
+    emp_city: 'Pune'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d86'),
+    emp_id: 109,
+    emp_name: 'Jay',
+    emp_age: 25,
+    emp_position: 'Software Engineer Intern',
+    emp_salary: 52000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d87'),
+    emp_id: 110,
+    emp_name: 'Ishita',
+    emp_age: 22,
+    emp_position: 'Content Writer Intern',
+    emp_salary: 41000,
+    emp_city: 'Mumbai'
+  }
+]
+PICT> db.Employee.find({},{_id: 0, emp_name: 1, emp_position:1, emp_salary:1});
+[
+  {
+    emp_name: 'Tanishka',
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000
+  },
+  {
+    emp_name: 'Tanishka',
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000
+  },
+  {
+    emp_name: 'Ronit',
+    emp_position: 'Front-End Developer Intern',
+    emp_salary: 45000
+  },
+  {
+    emp_name: 'Kedar',
+    emp_position: 'Back-End Developer Intern',
+    emp_salary: 47000
+  },
+  {
+    emp_name: 'Devashri',
+    emp_position: 'Graphic Designer Intern',
+    emp_salary: 42000
+  },
+  {
+    emp_name: 'Seegasha',
+    emp_position: 'Product Management Intern',
+    emp_salary: 55000
+  },
+  {
+    emp_name: 'Shreya',
+    emp_position: 'Marketing Intern',
+    emp_salary: 40000
+  },
+  {
+    emp_name: 'Sai',
+    emp_position: 'Data Analyst Intern',
+    emp_salary: 48000
+  },
+  { emp_name: 'Kanchan', emp_position: 'HR Intern', emp_salary: 43000 },
+  {
+    emp_name: 'Jay',
+    emp_position: 'Software Engineer Intern',
+    emp_salary: 52000
+  },
+  {
+    emp_name: 'Ishita',
+    emp_position: 'Content Writer Intern',
+    emp_salary: 41000
+  }
+]
+PICT> db.Employee.find({emp_name: "Tanishka"}).pretty();
+[
+  {
+    _id: ObjectId('690cb2a089469420f74b9d7d'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7e'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000,
+    emp_city: 'Bangalore'
+  }
+]
+PICT> db.Employee.findOne({emp_name: "Tanishka"}).pretty();
+TypeError: db.Employee.fi ... hka"}).pretty is not a function
+PICT> db.Employee.find({emp_name: "Ronit"},{_id:0,emp_name:1,emp_position:1,emp_salary:1}).pretty();
+[
+  {
+    emp_name: 'Ronit',
+    emp_position: 'Front-End Developer Intern',
+    emp_salary: 45000
+  }
+]
+PICT> db.Employee.updateOne({emp_name: "Tanishka"},{$set: {emp_salary: 60000}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PICT> db.Employee.find({emp_name: "Tanishka"}).pretty();
+[
+  {
+    _id: ObjectId('690cb2a089469420f74b9d7d'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 60000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7e'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 50000,
+    emp_city: 'Bangalore'
+  }
+]
+PICT> db.Employee.updateMany({emp_name: "Tanishka"},{$set: {emp_salary: 70000}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+PICT> db.Employee.find({emp_name: "Tanishka"}).pretty();
+[
+  {
+    _id: ObjectId('690cb2a089469420f74b9d7d'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 70000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7e'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 70000,
+    emp_city: 'Bangalore'
+  }
+]
+PICT> db.Employee.countDocuments();
+11
+PICT> db.Employee.deleteOne({_id: "690cb2a089469420f74b9d7d"});
+{ acknowledged: true, deletedCount: 0 }
+PICT> db.Employee.find({emp_name: "Tanishka"}).pretty();
+[
+  {
+    _id: ObjectId('690cb2a089469420f74b9d7d'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 70000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7e'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 70000,
+    emp_city: 'Bangalore'
+  }
+]
+PICT> db.Employee.deleteOne({_id: ObjectId('690cb2a089469420f74b9d7d')});
+{ acknowledged: true, deletedCount: 1 }
+PICT> db.Employee.find({emp_name: "Tanishka"}).pretty();
+[
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7e'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 70000,
+    emp_city: 'Bangalore'
+  }
+]
+PICT> db.Employee.countDocuments();
+10
+PICT> 

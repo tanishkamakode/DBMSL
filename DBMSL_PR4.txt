@@ -1,0 +1,88 @@
+Exception Handling:
+Syntax:
+DECLARE handler_type HANDLER FOR condition
+	BEGIN
+	-- Body
+	END
+//
+
+Example:
+1. Insert exception
+Delimiter //
+
+Create procedure insert_info()
+Begin
+	Declare continue handler for sqlexception
+	begin
+		select "An error occurred while inserting" as Message;
+	end
+	
+	insert into student_info values(1, "Tanishka", 96);
+End
+//
+Delimiter ;
+Call insert_info();
+
+2. Borrower and Fine
+Create table borrower(
+	rollno integer,
+	name varchar(20) not null,
+	dateofissue date default "2025-01-01",
+	nameofbook varchar(30) not null,
+	status enum("Issued", "Returned") default "Issued",
+	primary key(rollno, nameofbook)
+);
+
+Create table fine(
+	rollno integer,
+	dateofreturn date,
+	amount decimal(6, 2)
+);
+
+Insert into borrower values
+(1, 'Aarav',    '2025-11-04', 'Clean Code', 'Issued'),         
+(2, 'Isha',     '2025-11-01', 'The Pragmatic Programmer', 'Issued'), 
+(3, 'Rohan',    '2025-10-22', 'Data Structures in C', 'Issued'), 
+(4, 'Mira',     '2025-09-15', 'Introduction to Algorithms', 'Issued'), 
+(5, 'Tanish',   '2025-05-10', 'Database Systems', 'Issued'),   
+(6, 'Neha',     '2024-11-05', 'Operating System Concepts', 'Issued'),
+(7, 'Karan',    '2023-08-25', 'Computer Networks', 'Issued'),  
+(8, 'Priya',    '2025-10-01', 'Python Crash Course', 'Issued'),
+(9, 'Sahil',    '2025-10-10', 'C++ Programming', 'Returned'),
+(10,'Aditi',    '2025-09-20', 'Artificial Intelligence', 'Returned');
+
+Delimiter //
+Create procedure calculate_fineee(IN p_rollno integer, IN p_nameofbook varchar(30))
+Begin
+Declare p_dateofissue date;
+Declare p_days integer;
+Declare p_fineamount decimal(6,2) default 0;
+
+Declare exit handler for sqlexception
+Begin
+Select "Error: Record not found or an SQL error occurred!" As Error_Message;
+End;
+
+Select dateofissue into p_dateofissue from borrower where rollno = p_rollno and nameofbook = p_nameofbook and status = "Issued";
+
+Set p_days = datediff(curdate(), p_dateofissue);
+
+If p_days < 15 then set p_fineamount = 0;
+Elseif p_days between 15 and 30 then set p_fineamount = 5 * p_days;
+Else set p_fineamount = 50 * p_days;
+End if;
+
+Update borrower set status = "Returned" where rollno = p_rollno and nameofbook = p_nameofbook;
+
+If p_fineamount > 0 then
+Insert into fine values(p_rollno, curdate(), p_fineamount);
+Select p_rollno as RollNo, p_nameofbook as NameOfBook, p_days as DaysBorrowed, p_fineamount as FineAmount;
+End if;
+
+End;
+//
+Delimiter ;
+Call calulate_fine(1, "Clean code");
+
+
+

@@ -1,0 +1,152 @@
+A. AGGREGATION
+1. Total salary of all employees
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: null,
+		totalSal: {$sum: "$emp_salary"}
+	}
+}
+]);
+
+2. Average salary of all employees
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: null,
+		avgSal: {$avg: "$emp_salary"}
+	}
+}
+]);
+
+3. Total salary of employees per city
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: "$emp_city",
+		totalSal: {$sum: "$emp_salary"}
+	}
+}
+]);
+
+4. Average salary of employees per city
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: "$emp_city",
+		avgSal: {$avg: "$emp_salary"}
+	}
+}
+]);
+
+5. Count of all employees 
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: null,
+		count: {$sum: 1}
+	}
+}
+]);
+
+6. Count of employees per city
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: "$emp_city",
+		count: {$sum: 1}
+	}
+}
+]);
+
+7. Employees with salary > 30000
+Ans:
+db.Employee.aggregate([
+{
+	$match: {emp_salary: {$gt: 30000}}
+},
+{
+	$project: {_id: 0, emp_name: 1, emp_salary: 1}
+}
+]);
+
+8. Max salary of employees
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: null,
+		maxSal: {$max: "$emp_salary"}
+	}
+}
+]);
+
+9. Max salary of employees per city
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: "$emp_city",
+		maxSal: {$max: "$emp_salary"}
+	}
+}
+]);
+
+10. Min salary of employees
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: null,
+		maxSal: {$min: "$emp_salary"}
+	}
+}
+]);
+
+11. Min salary of employees per city
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: "$emp_city",
+		maxSal: {$min: "$emp_salary"}
+	}
+}
+]);
+
+12. Sort the results
+Ans:
+db.Employee.aggregate([
+{
+	$group: {
+		_id: "$emp_city",
+		totalSal: {$sum: "$emp_salary"}
+	}
+},
+{
+	$sort: {totalSal: -1}
+}
+]);
+
+B. INDEXING
+db.Employee.find({$emp_name: "Tanishka"}).explain("ExecutionStats");
+db.Employee.find({$emp_salary: {$gt: 60000}}).explain("ExecutionStats");
+
+db.Employee.createIndex({emp_name: 1);
+db.Employee.createIndex({emp_salary: -1});
+db.Employee.createIndex({emp_name: 1, emp_salary: -1});
+
+db.Employee.find({$emp_name: "Tanishka"}).explain("ExecutionStats");
+db.Employee.find({$emp_salary: {$gt: 60000}}).explain("ExecutionStats");
+
+db.getIndexes();
+
+
+
+

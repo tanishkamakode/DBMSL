@@ -1,0 +1,487 @@
+Last login: Thu Nov  6 20:00:29 on ttys000
+tanishka@Tanishka ~ % mongosh
+Current Mongosh Log ID:	690cc4b4a4d5f481c9777952
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+Using MongoDB:		8.2.0
+Using Mongosh:		2.5.8
+mongosh 2.5.9 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-11-06T20:01:20.493+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs;
+PICT    128.00 KiB
+admin    40.00 KiB
+config   36.00 KiB
+local    64.00 KiB
+test> use PICT;
+switched to db PICT
+PICT> show collections;
+Employee
+student
+PICT> db.Employee.find().pretty();
+[
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7e'),
+    emp_id: 101,
+    emp_name: 'Tanishka',
+    emp_age: 20,
+    emp_position: 'UI/UX Design Intern',
+    emp_salary: 70000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d7f'),
+    emp_id: 102,
+    emp_name: 'Ronit',
+    emp_age: 22,
+    emp_position: 'Front-End Developer Intern',
+    emp_salary: 45000,
+    emp_city: 'Pune'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d80'),
+    emp_id: 103,
+    emp_name: 'Kedar',
+    emp_age: 23,
+    emp_position: 'Back-End Developer Intern',
+    emp_salary: 47000,
+    emp_city: 'Mumbai'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d81'),
+    emp_id: 104,
+    emp_name: 'Devashri',
+    emp_age: 21,
+    emp_position: 'Graphic Designer Intern',
+    emp_salary: 42000,
+    emp_city: 'Delhi'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d82'),
+    emp_id: 105,
+    emp_name: 'Seegasha',
+    emp_age: 24,
+    emp_position: 'Product Management Intern',
+    emp_salary: 55000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d83'),
+    emp_id: 106,
+    emp_name: 'Shreya',
+    emp_age: 22,
+    emp_position: 'Marketing Intern',
+    emp_salary: 40000,
+    emp_city: 'Chennai'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d84'),
+    emp_id: 107,
+    emp_name: 'Sai',
+    emp_age: 23,
+    emp_position: 'Data Analyst Intern',
+    emp_salary: 48000,
+    emp_city: 'Hyderabad'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d85'),
+    emp_id: 108,
+    emp_name: 'Kanchan',
+    emp_age: 21,
+    emp_position: 'HR Intern',
+    emp_salary: 43000,
+    emp_city: 'Pune'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d86'),
+    emp_id: 109,
+    emp_name: 'Jay',
+    emp_age: 25,
+    emp_position: 'Software Engineer Intern',
+    emp_salary: 52000,
+    emp_city: 'Bangalore'
+  },
+  {
+    _id: ObjectId('690cb4eb89469420f74b9d87'),
+    emp_id: 110,
+    emp_name: 'Ishita',
+    emp_age: 22,
+    emp_position: 'Content Writer Intern',
+    emp_salary: 41000,
+    emp_city: 'Mumbai'
+  }
+]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: null,
+| 		totalSal: {$sum: "$emp_salary"}
+| 	}
+| }
+| ]);
+[ { _id: null, totalSal: 483000 } ]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: null,
+| 		avgSal: {$avg: "$emp_salary"}
+| 	}
+| }
+| ]);
+[ { _id: null, avgSal: 48300 } ]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: "$emp_city",
+| 		totalSal: {$sum: "$emp_salary"}
+| 	}
+| }
+| ]);
+[
+  { _id: 'Chennai', totalSal: 40000 },
+  { _id: 'Pune', totalSal: 88000 },
+  { _id: 'Bangalore', totalSal: 177000 },
+  { _id: 'Mumbai', totalSal: 88000 },
+  { _id: 'Hyderabad', totalSal: 48000 },
+  { _id: 'Delhi', totalSal: 42000 }
+]
+PICT> db.Employee.aggregare([
+| {
+| 	$group: {
+| 		_id: "$emp_city",
+| 		avgSal: {$avg: {"$emp_sal"}}
+| 	}
+| }
+| ]);
+Uncaught:
+SyntaxError: Unexpected token (5:28)
+
+  3 | 	$group: {
+  4 | 		_id: "$emp_city",
+> 5 | 		avgSal: {$avg: {"$emp_sal"}}
+    | 		                          ^
+  6 | 	}
+  7 | }
+  8 | ]);
+
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: "$emp_city",
+| 		avgSal: {$avg: "$emp_salary"}
+| 	}
+| }
+| ]);
+[
+  { _id: 'Hyderabad', avgSal: 48000 },
+  { _id: 'Pune', avgSal: 44000 },
+  { _id: 'Bangalore', avgSal: 59000 },
+  { _id: 'Mumbai', avgSal: 44000 },
+  { _id: 'Chennai', avgSal: 40000 },
+  { _id: 'Delhi', avgSal: 42000 }
+]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: null,
+| 		count: {$sum: 1}
+| 	}
+| }
+| ]);
+[ { _id: null, count: 10 } ]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: "$emp_city",
+| 		count: {$sum: 1}
+| 	}
+| }
+| ]);
+[
+  { _id: 'Hyderabad', count: 1 },
+  { _id: 'Pune', count: 2 },
+  { _id: 'Bangalore', count: 3 },
+  { _id: 'Mumbai', count: 2 },
+  { _id: 'Chennai', count: 1 },
+  { _id: 'Delhi', count: 1 }
+]
+PICT> db.Employee.aggregate([
+| {
+| 	$match: {emp_salary: {$gt: 30000}}
+| },
+| {
+| 	$project: {_id: 0, emp_name: 1, emp_salary: 1}
+| }
+| ]);
+[
+  { emp_name: 'Tanishka', emp_salary: 70000 },
+  { emp_name: 'Ronit', emp_salary: 45000 },
+  { emp_name: 'Kedar', emp_salary: 47000 },
+  { emp_name: 'Devashri', emp_salary: 42000 },
+  { emp_name: 'Seegasha', emp_salary: 55000 },
+  { emp_name: 'Shreya', emp_salary: 40000 },
+  { emp_name: 'Sai', emp_salary: 48000 },
+  { emp_name: 'Kanchan', emp_salary: 43000 },
+  { emp_name: 'Jay', emp_salary: 52000 },
+  { emp_name: 'Ishita', emp_salary: 41000 }
+]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: null,
+| 		maxSal: {$max: "$emp_salary"}
+| 	}
+| }
+| ]);
+[ { _id: null, maxSal: 70000 } ]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: "$emp_city",
+| 		maxSal: {$max: "$emp_salary"}
+| 	}
+| }
+| ]);
+[
+  { _id: 'Delhi', maxSal: 42000 },
+  { _id: 'Pune', maxSal: 45000 },
+  { _id: 'Bangalore', maxSal: 70000 },
+  { _id: 'Mumbai', maxSal: 47000 },
+  { _id: 'Chennai', maxSal: 40000 },
+  { _id: 'Hyderabad', maxSal: 48000 }
+]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: "$emp_city",
+| 		totalSal: {$sum: "emp_salary"}
+| 	}
+| },
+| {
+| 	$sort: {totalSal: -1}
+| }
+| ]);
+[
+  { _id: 'Chennai', totalSal: 0 },
+  { _id: 'Mumbai', totalSal: 0 },
+  { _id: 'Bangalore', totalSal: 0 },
+  { _id: 'Pune', totalSal: 0 },
+  { _id: 'Hyderabad', totalSal: 0 },
+  { _id: 'Delhi', totalSal: 0 }
+]
+PICT> db.Employee.aggregate([
+| {
+| 	$group: {
+| 		_id: "$emp_city",
+| 		totalSal: {$sum: "$emp_salary"}
+| 	}
+| },
+| {
+| 	$sort: {totalSal: -1}
+| }
+| ]);
+[
+  { _id: 'Bangalore', totalSal: 177000 },
+  { _id: 'Pune', totalSal: 88000 },
+  { _id: 'Mumbai', totalSal: 88000 },
+  { _id: 'Hyderabad', totalSal: 48000 },
+  { _id: 'Delhi', totalSal: 42000 },
+  { _id: 'Chennai', totalSal: 40000 }
+]
+PICT> db.Employee.find({emp_name: "Tanishka"}).explain("executionStats");
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'PICT.Employee',
+    parsedQuery: { emp_name: { '$eq': 'Tanishka' } },
+    indexFilterSet: false,
+    queryHash: '02771FAB',
+    planCacheShapeHash: '02771FAB',
+    planCacheKey: '981C5540',
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      filter: { emp_name: { '$eq': 'Tanishka' } },
+      direction: 'forward'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 1,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 10,
+    executionStages: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      filter: { emp_name: { '$eq': 'Tanishka' } },
+      nReturned: 1,
+      executionTimeMillisEstimate: 0,
+      works: 11,
+      advanced: 1,
+      needTime: 9,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      direction: 'forward',
+      docsExamined: 10
+    }
+  },
+  queryShapeHash: '258AC7E29B6E3DD66CA6B757F7D4572EE6C3D224D6EA113D297C7CBCAC7BF429',
+  command: { find: 'Employee', filter: { emp_name: 'Tanishka' }, '$db': 'PICT' },
+  serverInfo: {
+    host: 'Tanishka',
+    port: 27017,
+    version: '8.2.0',
+    gitVersion: '13e629eeccd63f00d17568fc4c12b7530fa34b54'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+PICT> db.Employee.createIndex({emp_name: 1});
+emp_name_1
+PICT> db.Employee.find({emp_name: "Tanishka"}).explain("executionStats");
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'PICT.Employee',
+    parsedQuery: { emp_name: { '$eq': 'Tanishka' } },
+    indexFilterSet: false,
+    queryHash: '02771FAB',
+    planCacheShapeHash: '02771FAB',
+    planCacheKey: 'A8F22F55',
+    optimizationTimeMillis: 2,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'FETCH',
+      inputStage: {
+        stage: 'IXSCAN',
+        keyPattern: { emp_name: 1 },
+        indexName: 'emp_name_1',
+        isMultiKey: false,
+        multiKeyPaths: { emp_name: [] },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: { emp_name: [ '["Tanishka", "Tanishka"]' ] }
+      }
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 1,
+    executionTimeMillis: 2,
+    totalKeysExamined: 1,
+    totalDocsExamined: 1,
+    executionStages: {
+      isCached: false,
+      stage: 'FETCH',
+      nReturned: 1,
+      executionTimeMillisEstimate: 0,
+      works: 2,
+      advanced: 1,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      docsExamined: 1,
+      alreadyHasObj: 0,
+      inputStage: {
+        stage: 'IXSCAN',
+        nReturned: 1,
+        executionTimeMillisEstimate: 0,
+        works: 2,
+        advanced: 1,
+        needTime: 0,
+        needYield: 0,
+        saveState: 0,
+        restoreState: 0,
+        isEOF: 1,
+        keyPattern: { emp_name: 1 },
+        indexName: 'emp_name_1',
+        isMultiKey: false,
+        multiKeyPaths: { emp_name: [] },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: { emp_name: [ '["Tanishka", "Tanishka"]' ] },
+        keysExamined: 1,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0
+      }
+    }
+  },
+  queryShapeHash: '258AC7E29B6E3DD66CA6B757F7D4572EE6C3D224D6EA113D297C7CBCAC7BF429',
+  command: { find: 'Employee', filter: { emp_name: 'Tanishka' }, '$db': 'PICT' },
+  serverInfo: {
+    host: 'Tanishka',
+    port: 27017,
+    version: '8.2.0',
+    gitVersion: '13e629eeccd63f00d17568fc4c12b7530fa34b54'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+PICT> db.Employee.createIndex({emp_salary: 1});
+emp_salary_1
+PICT> db.Employee.getIndexes();
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { emp_name: 1 }, name: 'emp_name_1' },
+  { v: 2, key: { emp_salary: 1 }, name: 'emp_salary_1' }
+]
+PICT> db.Employee.createIndex({emp_salary: -1});
+emp_salary_-1
+PICT> db.Employee.getIndexes();
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { emp_name: 1 }, name: 'emp_name_1' },
+  { v: 2, key: { emp_salary: 1 }, name: 'emp_salary_1' },
+  { v: 2, key: { emp_salary: -1 }, name: 'emp_salary_-1' }
+]
+PICT> 

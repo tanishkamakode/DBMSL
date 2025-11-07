@@ -1,0 +1,66 @@
+mapReduce in monododb:
+
+1. Sum of all salaries per city
+Ans:
+var mapFunction = function(){
+	emit(this.emp_city, this.emp_salary);
+};
+
+var reduceFunction = function(key, value){
+	return Array.sum(value);
+};
+
+db.Employee.mapReduce(mapFunction, reduceFunction, {out: "salary_by_city"});
+db.salary_by_city.find().pretty();
+
+2. Max salary per city
+Ans:
+var mapFunction = function(){
+	emit(this.emp_city, this.emp_salary);
+};
+
+var reduceFunction = function(key, value){
+	return Math.max.apply(null, value);
+};
+
+db.Employee.mapReduce(mapFunction, reduceFunction, {out: "max_by_city"});
+db.max_by_city.find().pretty();
+
+3. Min salary per city
+Ans:
+var mapFunction = function(){
+	emit(this.emp_city, this.emp_salary);
+};
+
+var reduceFunction = function(key, value){
+	return Math.min.apply(null, value);
+};
+
+db.Employee.mapReduce(mapFunction, reduceFunction, {out: "min_by_city"});
+db.min_by_city.find().pretty();
+
+4. Count of all employees per city
+Ans:
+var mapFunction = function(){
+	emit(this.emp_city, 1);
+};
+
+var reduceFunction = function(key, value){
+	return Array.sum(value);
+};
+
+db.Employee.mapReduce(mapFunction, reduceFunction, {out: "count_by_city"});
+db.count_by_city.find().pretty();
+
+5. Count of all employees per position
+Ans:
+var mapFunction = function(){
+	emit(this.emp_position, 1);
+};
+
+var reduceFunction = function(key, value){
+	return Array.sum(value);
+};
+
+db.Employee.mapReduce(mapFunction, reduceFunction, {out: "count_by_position"});
+db.count_by_position.find().pretty();

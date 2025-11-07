@@ -1,0 +1,574 @@
+tanishka@Tanishka ~ % mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 34
+Server version: 8.4.6 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| PICT               |
+| sys                |
++--------------------+
+5 rows in set (0.003 sec)
+
+mysql> use PICT;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> sho tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sho tables' at line 1
+mysql> clear
+mysql> exit
+Bye
+tanishka@Tanishka ~ % clear
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tanishka@Tanishka ~ % mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 35
+Server version: 8.4.6 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| PICT               |
+| sys                |
++--------------------+
+5 rows in set (0.002 sec)
+
+mysql> use PICT;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_pict |
++----------------+
+| student        |
++----------------+
+1 row in set (0.002 sec)
+
+mysql> create table dept(
+    -> dept_id integer primary key,
+    -> dept_name varchar(20) not null,
+    -> dept_location varchar(20)
+    -> );
+Query OK, 0 rows affected (0.014 sec)
+
+mysql> create table employee(
+    -> emp_id integer primary key,
+    -> dept_id integer not null,
+    -> emp_fname varchar(20) not null,
+    -> emp_lname varchar(20) not null,
+    -> emp_position varchar(20),
+    -> emp_salary decimal(8, 2) check (emp_salary >= 20000),
+    -> emp_joindate date,
+    -> foreign key (dept_id) references dept(dept_id) on delete cascade
+    -> );
+Query OK, 0 rows affected (0.012 sec)
+
+mysql> create table project(
+    -> proj_id integer primary key,
+    -> dept_id integer not null,
+    -> proj_name varchar(20) not null,
+    -> proj_location varchar(20),
+    -> proj_cost decimal(8,2),
+    -> proj_year year,
+    -> foreign key (dept_id) references dept(dept_id) on delete cascade
+    -> );
+Query OK, 0 rows affected (0.009 sec)
+
+mysql> desc dept;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| dept_id       | int         | NO   | PRI | NULL    |       |
+| dept_name     | varchar(20) | NO   |     | NULL    |       |
+| dept_location | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.007 sec)
+
+mysql> desc employee;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| emp_id       | int          | NO   | PRI | NULL    |       |
+| dept_id      | int          | NO   | MUL | NULL    |       |
+| emp_fname    | varchar(20)  | NO   |     | NULL    |       |
+| emp_lname    | varchar(20)  | NO   |     | NULL    |       |
+| emp_position | varchar(20)  | YES  |     | NULL    |       |
+| emp_salary   | decimal(8,2) | YES  |     | NULL    |       |
+| emp_joindate | date         | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+7 rows in set (0.002 sec)
+
+mysql> desc project;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| proj_id       | int          | NO   | PRI | NULL    |       |
+| dept_id       | int          | NO   | MUL | NULL    |       |
+| proj_name     | varchar(20)  | NO   |     | NULL    |       |
+| proj_location | varchar(20)  | YES  |     | NULL    |       |
+| proj_cost     | decimal(8,2) | YES  |     | NULL    |       |
+| proj_year     | year         | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+6 rows in set (0.002 sec)
+
+mysql> alter table dept modify dept_id integer primary key auto_increment;
+ERROR 1068 (42000): Multiple primary key defined
+mysql> alter table dept modify dept_id integer auto_increment;
+ERROR 1833 (HY000): Cannot change column 'dept_id': used in a foreign key constraint 'employee_ibfk_1' of table 'PICT.employee'
+mysql> alter table project modify proj_id integer auto_increment;
+Query OK, 0 rows affected (0.016 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table project auto_increment = 101;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee modify emp_id integer auto_increment;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee auto_increment = 1001;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table dept modify dept_id integer auto_increment;
+ERROR 1833 (HY000): Cannot change column 'dept_id': used in a foreign key constraint 'employee_ibfk_1' of table 'PICT.employee'
+mysql> insert into dept values(1, ‘IT’, ‘Pune’);
+ERROR 1054 (42S22): Unknown column '‘IT’' in 'field list'
+mysql> insert into dept values(2, ‘Computer’, ‘Bengaluru’);
+ERROR 1054 (42S22): Unknown column '‘Computer’' in 'field list'
+mysql> insert into dept values(3, ‘Sales’, ‘Chennai’);
+ERROR 1054 (42S22): Unknown column '‘Sales’' in 'field list'
+mysql> insert into dept values(4, ‘Marketing’, ‘Delhi’);
+ERROR 1054 (42S22): Unknown column '‘Marketing’' in 'field list'
+mysql> insert into dept values(5, ‘HR’, ‘Noida');
+    '> 
+    '> 
+
+^C
+mysql> insert into dept values(1, “IT”, “Pune”);
+ERROR 1054 (42S22): Unknown column '“IT”' in 'field list'
+mysql> desc dept;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| dept_id       | int         | NO   | PRI | NULL    |       |
+| dept_name     | varchar(20) | NO   |     | NULL    |       |
+| dept_location | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.002 sec)
+
+mysql> insert into dept values(1, 'IT', 'Pune');
+Query OK, 1 row affected (0.003 sec)
+
+mysql> insert into dept values(2, 'Computer', 'Mumbai');
+Query OK, 1 row affected (0.002 sec)
+
+mysql> insert into dept values(3, 'Sales', 'Chennai');
+Query OK, 1 row affected (0.001 sec)
+
+mysql> insert into dept values(4, 'Marketing', 'Delhi');
+Query OK, 1 row affected (0.001 sec)
+
+mysql> insert into dept values(5, 'HR', 'Noida');
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
++---------+-----------+---------------+
+5 rows in set (0.000 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Tanishka", "Makode", "Designer", 90000, "2027-07-07");
+Query OK, 1 row affected (0.002 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Ronit", "Vithaldas", "Designer", 100000, "2026-07-07");
+Query OK, 1 row affected (0.000 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(1, "Kedar", "Makode", "Devops", 990000, "2024-05-07");
+Query OK, 1 row affected (0.000 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(4, "Piyush", "Patil", "Sr. Market", 40000, "2021-09-02");
+Query OK, 1 row affected (0.000 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(5, "Harry", "Chaus", "HR lead", 30000, "2009-10-07");
+Query OK, 1 row affected (0.000 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Rani", "Gauda", "Sr. SDE", 120000, "1980-07-07");
+Query OK, 1 row affected (0.000 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Jay", "Mehak", "Lead SDE", 150000, "2026-07-07");
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1001 |       2 | Tanishka  | Makode    | Designer     |   90000.00 | 2027-07-07   |
+|   1002 |       2 | Ronit     | Vithaldas | Designer     |  100000.00 | 2026-07-07   |
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
+|   1005 |       5 | Harry     | Chaus     | HR lead      |   30000.00 | 2009-10-07   |
+|   1006 |       2 | Rani      | Gauda     | Sr. SDE      |  120000.00 | 1980-07-07   |
+|   1007 |       2 | Jay       | Mehak     | Lead SDE     |  150000.00 | 2026-07-07   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+7 rows in set (0.001 sec)
+
+mysql> insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(1, "ITDeals", "Pune", 100000, 2000);
+Query OK, 1 row affected (0.001 sec)
+
+mysql> insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(2, "CompWhiz", "Mumbai", 150000, 2003);
+Query OK, 1 row affected (0.001 sec)
+
+mysql> insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(1, "IT-devs", "Pune", 90000, 2001);
+Query OK, 1 row affected (0.000 sec)
+
+mysql> insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(5, "HR-Real", "Bangalore", 300000, 2005);
+Query OK, 1 row affected (0.000 sec)
+
+mysql> insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values(3, "Salezzz", "Mumbai", 250000, 2004);
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select * from project;
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     101 |       1 | ITDeals   | Pune          | 100000.00 |      2000 |
+|     102 |       2 | CompWhiz  | Mumbai        | 150000.00 |      2003 |
+|     103 |       1 | IT-devs   | Pune          |  90000.00 |      2001 |
+|     104 |       5 | HR-Real   | Bangalore     | 300000.00 |      2005 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
++---------+---------+-----------+---------------+-----------+-----------+
+5 rows in set (0.001 sec)
+
+mysql> select e.* from employee e JOIN dept d ON e.dept_id = d.dept_id where d.dept_name in ('IT', 'Compmysql> select e.* from empmysql> select e.* from employee e JOIN dept d ON e.dept_id = d.dept_id where d.dept_name in ('IT', 'Computer') AND e.emp_fname LIKE 'P%' OR e.emp_fname LIKE 'H%';
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1005 |       5 | Harry     | Chaus     | HR lead      |   30000.00 | 2009-10-07   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+1 row in set (0.002 sec)
+
+mysql> select count(emp_position) AS total_positions from employee;
++-----------------+
+| total_positions |
++-----------------+
+|               7 |
++-----------------+
+1 row in set (0.002 sec)
+
+mysql> select count(DISTINCT emp_position) AS total_positions from employee;
++-----------------+
+| total_positions |
++-----------------+
+|               6 |
++-----------------+
+1 row in set (0.001 sec)
+
+mysql> update employee set emp_salary = (emp_salary * 0.10) + emp_salary where year(emp_joindate) < 1985;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1001 |       2 | Tanishka  | Makode    | Designer     |   90000.00 | 2027-07-07   |
+|   1002 |       2 | Ronit     | Vithaldas | Designer     |  100000.00 | 2026-07-07   |
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
+|   1005 |       5 | Harry     | Chaus     | HR lead      |   30000.00 | 2009-10-07   |
+|   1006 |       2 | Rani      | Gauda     | Sr. SDE      |  132000.00 | 1980-07-07   |
+|   1007 |       2 | Jay       | Mehak     | Lead SDE     |  150000.00 | 2026-07-07   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+7 rows in set (0.001 sec)
+
+mysql> delete from dept where location = 'Mumbai';
+ERROR 1054 (42S22): Unknown column 'location' in 'where clause'
+mysql> delete from dept where location_location = 'Mumbai';
+ERROR 1054 (42S22): Unknown column 'location_location' in 'where clause'
+mysql> delete from dept where dept_location = 'Mumbai';
+Query OK, 1 row affected (0.002 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
++---------+-----------+---------------+
+4 rows in set (0.000 sec)
+
+mysql> select proj_name from project where proj_location = 'Pune';
++-----------+
+| proj_name |
++-----------+
+| ITDeals   |
+| IT-devs   |
++-----------+
+2 rows in set (0.001 sec)
+
+mysql> select * from project where proj_cost between 100000 and 500000;
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     101 |       1 | ITDeals   | Pune          | 100000.00 |      2000 |
+|     104 |       5 | HR-Real   | Bangalore     | 300000.00 |      2005 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
++---------+---------+-----------+---------------+-----------+-----------+
+3 rows in set (0.001 sec)
+
+mysql> select * from project where proj_cost = (select max(proj_cost) from project);
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     104 |       5 | HR-Real   | Bangalore     | 300000.00 |      2005 |
++---------+---------+-----------+---------------+-----------+-----------+
+1 row in set (0.002 sec)
+
+mysql> select avg(proj_cost) as Avg_cost from project;
++---------------+
+| Avg_cost      |
++---------------+
+| 185000.000000 |
++---------------+
+1 row in set (0.001 sec)
+
+mysql> select emp_id, concat(emp_fname + ' ' + emp_lname) from employee order by emp_lname desc;
++--------+-------------------------------------+
+| emp_id | concat(emp_fname + ' ' + emp_lname) |
++--------+-------------------------------------+
+|   1004 | 0                                   |
+|   1003 | 0                                   |
+|   1005 | 0                                   |
++--------+-------------------------------------+
+3 rows in set, 6 warnings (0.003 sec)
+
+mysql> select emp_id, emp_fname, emp_lname from employee order by emp_lname desc;
++--------+-----------+-----------+
+| emp_id | emp_fname | emp_lname |
++--------+-----------+-----------+
+|   1004 | Piyush    | Patil     |
+|   1003 | Kedar     | Makode    |
+|   1005 | Harry     | Chaus     |
++--------+-----------+-----------+
+3 rows in set (0.001 sec)
+
+mysql> select emp_id, concat(emp_fname, ' ',  emp_lname) from employee order by emp_lname desc;
++--------+------------------------------------+
+| emp_id | concat(emp_fname, ' ',  emp_lname) |
++--------+------------------------------------+
+|   1004 | Piyush Patil                       |
+|   1003 | Kedar Makode                       |
+|   1005 | Harry Chaus                        |
++--------+------------------------------------+
+3 rows in set (0.001 sec)
+
+mysql> select emp_id, concat(emp_lname, ' ',  emp_fname) as emp_name from employee order by emp_lname desc;
++--------+--------------+
+| emp_id | emp_name     |
++--------+--------------+
+|   1004 | Patil Piyush |
+|   1003 | Makode Kedar |
+|   1005 | Chaus Harry  |
++--------+--------------+
+3 rows in set (0.001 sec)
+
+mysql> select * from project where proj_year in (2004, 2005, 2007);
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     104 |       5 | HR-Real   | Bangalore     | 300000.00 |      2005 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
++---------+---------+-----------+---------------+-----------+-----------+
+2 rows in set (0.001 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
++---------+-----------+---------------+
+4 rows in set (0.000 sec)
+
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
+|   1005 |       5 | Harry     | Chaus     | HR lead      |   30000.00 | 2009-10-07   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+3 rows in set (0.001 sec)
+
+mysql> select * from project;
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     101 |       1 | ITDeals   | Pune          | 100000.00 |      2000 |
+|     103 |       1 | IT-devs   | Pune          |  90000.00 |      2001 |
+|     104 |       5 | HR-Real   | Bangalore     | 300000.00 |      2005 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
++---------+---------+-----------+---------------+-----------+-----------+
+4 rows in set (0.001 sec)
+
+mysql> delete from dept where dept_id = 5
+    -> ;
+Query OK, 1 row affected (0.003 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
++---------+-----------+---------------+
+3 rows in set (0.000 sec)
+
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+2 rows in set (0.000 sec)
+
+mysql> select * from project;
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     101 |       1 | ITDeals   | Pune          | 100000.00 |      2000 |
+|     103 |       1 | IT-devs   | Pune          |  90000.00 |      2001 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
++---------+---------+-----------+---------------+-----------+-----------+
+3 rows in set (0.000 sec)
+
+mysql> explain select * from employee where emp_fname = "Kedar";
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table    | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | employee | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    2 |    50.00 | Using where |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0.002 sec)
+
+mysql> mysql> create index empname_index on employee(emp_fname);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empname_index on employee(emp_fname)' at line 1
+mysql> create index empname_index on employee(emp_fname);
+Query OK, 0 rows affected (0.017 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> explain select * from employee where emp_fname = "Kedar";
++----+-------------+----------+------------+------+---------------+---------------+---------+-------+------+----------+-------+
+| id | select_type | table    | partitions | type | possible_keys | key           | key_len | ref   | rows | filtered | Extra |
++----+-------------+----------+------------+------+---------------+---------------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | employee | NULL       | ref  | empname_index | empname_index | 82      | const |    1 |   100.00 | NULL  |
++----+-------------+----------+------------+------+---------------+---------------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0.001 sec)
+
+mysql> show index from employee;
++----------+------------+---------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table    | Non_unique | Key_name      | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+---------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employee |          0 | PRIMARY       |            1 | emp_id      | A         |           2 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | dept_id       |            1 | dept_id     | A         |           2 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | empname_index |            1 | emp_fname   | A         |           2 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++----------+------------+---------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.005 sec)
+
+mysql> mysql> create view emp_view as emp_fname, emp_lname from employee;
+Query OK, 0 rows affected (0.004 sec)
+
+mysql> select * from emp_view;
++-----------+-----------+
+| emp_fname | emp_lname |
++-----------+-----------+
+| Kedar     | Makode    |
+| Piyush    | Patil     |
++-----------+-----------+
+2 rows in set (0.001 sec)
+
+mysql> insert into emp_view values("Tanishka", "Makode");
+ERROR 1423 (HY000): Field of view 'pict.emp_view' underlying table doesn't have a default value
+mysql> select dept_id, count(emp_id) as total_emp, avg(emp_salary) as avg_sal from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'pict.employee.dept_id'; this is incompatible with sql_mode=only_full_group_by
+mysql> select dept_id, count(emp_id) as total_emp, avg(emp_salary) as avg_sal from employee group by dept_is;
+ERROR 1054 (42S22): Unknown column 'dept_is' in 'group statement'
+mysql> select dept_id, count(emp_id) as total_emp, avg(emp_salary) as avg_sal from employee group by dept_id;
++---------+-----------+---------------+
+| dept_id | total_emp | avg_sal       |
++---------+-----------+---------------+
+|       1 |         1 | 990000.000000 |
+|       4 |         1 |  40000.000000 |
++---------+-----------+---------------+
+2 rows in set (0.001 sec)
+
+mysql> select dept_id, count(emp_id) as total_emp, avg(emp_salary) as avg_sal from employee group by dept_id order by avg_sal;
++---------+-----------+---------------+
+| dept_id | total_emp | avg_sal       |
++---------+-----------+---------------+
+|       4 |         1 |  40000.000000 |
+|       1 |         1 | 990000.000000 |
++---------+-----------+---------------+
+2 rows in set (0.001 sec)
+
+mysql> 

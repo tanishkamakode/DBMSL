@@ -1,0 +1,225 @@
+Employee Documents:
+  {
+    "emp_id": 101,
+    "emp_name": "Tanishka",
+    "emp_age": 20,
+    "emp_position": "UI/UX Design Intern",
+    "emp_salary": 50000,
+    "emp_city": "Bangalore"
+  },
+  {
+    "emp_id": 102,
+    "emp_name": "Ronit",
+    "emp_age": 22,
+    "emp_position": "Front-End Developer Intern",
+    "emp_salary": 45000,
+    "emp_city": "Pune"
+  },
+  {
+    "emp_id": 103,
+    "emp_name": "Kedar",
+    "emp_age": 23,
+    "emp_position": "Back-End Developer Intern",
+    "emp_salary": 47000,
+    "emp_city": "Mumbai"
+  },
+  {
+    "emp_id": 104,
+    "emp_name": "Devashri",
+    "emp_age": 21,
+    "emp_position": "Graphic Designer Intern",
+    "emp_salary": 42000,
+    "emp_city": "Delhi"
+  },
+  {
+    "emp_id": 105,
+    "emp_name": "Seegasha",
+    "emp_age": 24,
+    "emp_position": "Product Management Intern",
+    "emp_salary": 55000,
+    "emp_city": "Bangalore"
+  },
+  {
+    "emp_id": 106,
+    "emp_name": "Shreya",
+    "emp_age": 22,
+    "emp_position": "Marketing Intern",
+    "emp_salary": 40000,
+    "emp_city": "Chennai"
+  },
+  {
+    "emp_id": 107,
+    "emp_name": "Sai",
+    "emp_age": 23,
+    "emp_position": "Data Analyst Intern",
+    "emp_salary": 48000,
+    "emp_city": "Hyderabad"
+  },
+  {
+    "emp_id": 108,
+    "emp_name": "Kanchan",
+    "emp_age": 21,
+    "emp_position": "HR Intern",
+    "emp_salary": 43000,
+    "emp_city": "Pune"
+  },
+  {
+    "emp_id": 109,
+    "emp_name": "Jay",
+    "emp_age": 25,
+    "emp_position": "Software Engineer Intern",
+    "emp_salary": 52000,
+    "emp_city": "Bangalore"
+  },
+  {
+    "emp_id": 110,
+    "emp_name": "Ishita",
+    "emp_age": 22,
+    "emp_position": "Content Writer Intern",
+    "emp_salary": 41000,
+    "emp_city": "Mumbai"
+  }
+
+db.createCollection("Employee");
+
+// CREATE
+db.Employee.insertOne({
+emp_id: 101,
+emp_name: "Tanishka",
+emp_age: 20,
+emp_position: "UI/UX Design Intern",
+emp_salary: 50000,
+emp_city: "Bangalore"
+});
+
+db.Employee.insertMany([
+{
+    "emp_id": 101,
+    "emp_name": "Tanishka",
+    "emp_age": 20,
+    "emp_position": "UI/UX Design Intern",
+    "emp_salary": 50000,
+    "emp_city": "Bangalore"
+  },
+  {
+    "emp_id": 102,
+    "emp_name": "Ronit",
+    "emp_age": 22,
+    "emp_position": "Front-End Developer Intern",
+    "emp_salary": 45000,
+    "emp_city": "Pune"
+  },
+  {
+    "emp_id": 103,
+    "emp_name": "Kedar",
+    "emp_age": 23,
+    "emp_position": "Back-End Developer Intern",
+    "emp_salary": 47000,
+    "emp_city": "Mumbai"
+  },
+  {
+    "emp_id": 104,
+    "emp_name": "Devashri",
+    "emp_age": 21,
+    "emp_position": "Graphic Designer Intern",
+    "emp_salary": 42000,
+    "emp_city": "Delhi"
+  },
+  {
+    "emp_id": 105,
+    "emp_name": "Seegasha",
+    "emp_age": 24,
+    "emp_position": "Product Management Intern",
+    "emp_salary": 55000,
+    "emp_city": "Bangalore"
+  },
+  {
+    "emp_id": 106,
+    "emp_name": "Shreya",
+    "emp_age": 22,
+    "emp_position": "Marketing Intern",
+    "emp_salary": 40000,
+    "emp_city": "Chennai"
+  },
+  {
+    "emp_id": 107,
+    "emp_name": "Sai",
+    "emp_age": 23,
+    "emp_position": "Data Analyst Intern",
+    "emp_salary": 48000,
+    "emp_city": "Hyderabad"
+  },
+  {
+    "emp_id": 108,
+    "emp_name": "Kanchan",
+    "emp_age": 21,
+    "emp_position": "HR Intern",
+    "emp_salary": 43000,
+    "emp_city": "Pune"
+  },
+  {
+    "emp_id": 109,
+    "emp_name": "Jay",
+    "emp_age": 25,
+    "emp_position": "Software Engineer Intern",
+    "emp_salary": 52000,
+    "emp_city": "Bangalore"
+  },
+  {
+    "emp_id": 110,
+    "emp_name": "Ishita",
+    "emp_age": 22,
+    "emp_position": "Content Writer Intern",
+    "emp_salary": 41000,
+    "emp_city": "Mumbai"
+  }
+]);
+
+// READ
+db.Employee.countDocuments();
+db.Employee.find().pretty();
+db.Employee.find({},{_id:0,emp_name:1,emp_position:1,emp_salary:1}).pretty();
+db.Employee.find({emp_name: "Tanishka"}).pretty();
+
+db.Employee.find({
+$and: [
+{emp_name: "Tanishka"},
+{emp_city: "Pune}
+]
+}).pretty();
+
+db.Employee.find({
+$and: [
+{emp_city: "Pune"},
+{emp_salary: {$gt: 30000}}
+]
+}).pretty();
+
+db.Employee.find({
+$or: [
+{emp_position: "UI/UX Design Intern"},
+{emp_position: "Graphic Design Intern"}
+]
+}).pretty();
+
+db.Employee.find({
+emp_city: {$not: {$eq: "Pune"}}
+}).pretty();
+
+db.Employee.find({emp_city: {$in: ["Mumbai", "Pune"]}}).pretty();
+
+db.Employee.find({emp_city: {$nin: ["Mumbai", "Pune"]}}).pretty();
+
+db.Employee.find({emp_position: {$eq: "Intern"}}).pretty();
+
+db.Employee.find({emp_position: {$ne: "Intern"}}).pretty();
+
+// UPDATE
+db.Employee.updateOne({emp_name: "Tanishka"},{$set: {emp_salary: 60000}});
+
+db.Employee.updateMany({emp_name: "Tanishka"},{$set: {emp_salary: 60000}});
+
+// DELETE
+db.Employee.deleteOne({emp_name: "Kedar"});
+
+db.Employee.deleteMany({emp_city: "Pune"});

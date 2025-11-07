@@ -1,0 +1,741 @@
+| emp_view       |
+| employee       |
+| project        |
+| student        |
++----------------+
+5 rows in set (0.001 sec)
+
+mysql> 
+mysql> select * from employee e natural join dept d;
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+| dept_id | emp_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate | dept_name | dept_location |
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+|       1 |   1003 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   | IT        | Pune          |
+|       4 |   1004 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   | Marketing | Delhi         |
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+2 rows in set (0.001 sec)
+
+mysql> mysql> select * from e;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+2 rows in set (0.001 sec)
+
+mysql> select * from d;
+ERROR 1146 (42S02): Table 'pict.d' doesn't exist
+mysql> select * from d;
+ERROR 1146 (42S02): Table 'pict.d' doesn't exist
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+2 rows in set (0.001 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
++---------+-----------+---------------+
+3 rows in set (0.001 sec)
+
+mysql> clear
+mysql> clear
+mysql> exit
+Bye
+tanishka@Tanishka ~ % clear
+
+tanishka@Tanishka ~ % mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 37
+Server version: 8.4.6 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| PICT               |
+| sys                |
++--------------------+
+5 rows in set (0.002 sec)
+
+mysql> use PICT;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_pict |
++----------------+
+| dept           |
+| emp_view       |
+| employee       |
+| project        |
+| student        |
++----------------+
+5 rows in set (0.001 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
++---------+-----------+---------------+
+3 rows in set (0.001 sec)
+
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+2 rows in set (0.000 sec)
+
+mysql> select * from project;
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     101 |       1 | ITDeals   | Pune          | 100000.00 |      2000 |
+|     103 |       1 | IT-devs   | Pune          |  90000.00 |      2001 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
++---------+---------+-----------+---------------+-----------+-----------+
+3 rows in set (0.001 sec)
+
+mysql> insert into dept values(2, 'Computer', 'Mumbai');
+Query OK, 1 row affected (0.002 sec)
+
+mysql> insert into dept values(5, 'HR', 'Noida');
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
++---------+-----------+---------------+
+5 rows in set (0.000 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(5, "Shanaya", "Malhotra", "Sr. HR", 65000, "2009-12-01");
+Query OK, 1 row affected (0.001 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(5, "Dhruv", "Malhotra", "Jr. HR", 45000, "2016-02-18");
+Query OK, 1 row affected (0.002 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Raj", "Deshpande", "Jr. SDE", 55000, "2020-02-18");
+Query OK, 1 row affected (0.001 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(2, "Jayshree", "Mahajan", "Sr. SDE", 75000, "2000-02-18");
+Query OK, 1 row affected (0.002 sec)
+
+mysql> insert into employee(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate) values(1, "Parag", "Mahajan", "Sr. Devops", 95000, "2007-02-10");
+Query OK, 1 row affected (0.002 sec)
+
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
+|   1008 |       5 | Shanaya   | Malhotra  | Sr. HR       |   65000.00 | 2009-12-01   |
+|   1009 |       5 | Dhruv     | Malhotra  | Jr. HR       |   45000.00 | 2016-02-18   |
+|   1010 |       2 | Raj       | Deshpande | Jr. SDE      |   55000.00 | 2020-02-18   |
+|   1011 |       2 | Jayshree  | Mahajan   | Sr. SDE      |   75000.00 | 2000-02-18   |
+|   1012 |       1 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+7 rows in set (0.000 sec)
+
+mysql> select * from employee natural join dept;
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+| dept_id | emp_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate | dept_name | dept_location |
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+|       1 |   1003 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   | IT        | Pune          |
+|       1 |   1012 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   | IT        | Pune          |
+|       2 |   1010 | Raj       | Deshpande | Jr. SDE      |   55000.00 | 2020-02-18   | Computer  | Mumbai        |
+|       2 |   1011 | Jayshree  | Mahajan   | Sr. SDE      |   75000.00 | 2000-02-18   | Computer  | Mumbai        |
+|       4 |   1004 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   | Marketing | Delhi         |
+|       5 |   1008 | Shanaya   | Malhotra  | Sr. HR       |   65000.00 | 2009-12-01   | HR        | Noida         |
+|       5 |   1009 | Dhruv     | Malhotra  | Jr. HR       |   45000.00 | 2016-02-18   | HR        | Noida         |
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+7 rows in set (0.000 sec)
+
+mysql> select e.emp_fname, e.emp_position, d.dept_location, e.emp_joindate from employee e join dept d on e.dept_id = d.dept_id;
++-----------+--------------+---------------+--------------+
+| emp_fname | emp_position | dept_location | emp_joindate |
++-----------+--------------+---------------+--------------+
+| Kedar     | Devops       | Pune          | 2024-05-07   |
+| Parag     | Sr. Devops   | Pune          | 2007-02-10   |
+| Raj       | Jr. SDE      | Mumbai        | 2020-02-18   |
+| Jayshree  | Sr. SDE      | Mumbai        | 2000-02-18   |
+| Piyush    | Sr. Market   | Delhi         | 2021-09-02   |
+| Shanaya   | Sr. HR       | Noida         | 2009-12-01   |
+| Dhruv     | Jr. HR       | Noida         | 2016-02-18   |
++-----------+--------------+---------------+--------------+
+7 rows in set (0.001 sec)
+
+mysql> select e.*, p.proj_id, p.proj_cost from employee e join project p on e.dept_id = p.dept_id;
++--------+---------+-----------+-----------+--------------+------------+--------------+---------+-----------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate | proj_id | proj_cost |
++--------+---------+-----------+-----------+--------------+------------+--------------+---------+-----------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |     101 | 100000.00 |
+|   1012 |       1 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   |     101 | 100000.00 |
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |     103 |  90000.00 |
+|   1012 |       1 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   |     103 |  90000.00 |
++--------+---------+-----------+-----------+--------------+------------+--------------+---------+-----------+
+4 rows in set (0.001 sec)
+
+mysql> mysql> select e.*, p.proj_id, p.proj_cost from employee e join project p on e.dept_id = p.dept_id where p.proj_location <> "Pune";
+    "> ;
+    "> 
+
+^C
+mysql> select e.*, p.proj_id, p.proj_cost from employee e join project p on e.dept_id = p.dept_id where p.proj_location <> "Pune"
+    -> ;
+Empty set (0.001 sec)
+
+mysql> select e.*, p.proj_id, p.proj_cost from employee e join project p on e.dept_id = p.dept_id where p.proj_location <> "Mumbai";
++--------+---------+-----------+-----------+--------------+------------+--------------+---------+-----------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate | proj_id | proj_cost |
++--------+---------+-----------+-----------+--------------+------------+--------------+---------+-----------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |     101 | 100000.00 |
+|   1012 |       1 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   |     101 | 100000.00 |
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |     103 |  90000.00 |
+|   1012 |       1 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   |     103 |  90000.00 |
++--------+---------+-----------+-----------+--------------+------------+--------------+---------+-----------+
+4 rows in set (0.001 sec)
+
+mysql> select d.dept_name, e.emp_fname, e.emp_position from employee e join dept d on e.dept_id = d.dept_id join proj p on d.dept_id = p.dept_id wher p.proj_year = 2000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wher p.proj_year = 2000' at line 1
+mysql> select d.dept_name, e.emp_fname, e.emp_position from employee e join dept d on e.dept_id = d.dept_id join proj p on d.dept_id = p.dept_id where p.proj_year = 2000;
+ERROR 1146 (42S02): Table 'pict.proj' doesn't exist
+mysql> select d.dept_name, e.emp_fname, e.emp_position from employee e join dept d on e.dept_id = d.dept_id join project p on d.dept_id = p.dept_id where p.proj_year = 2000;
++-----------+-----------+--------------+
+| dept_name | emp_fname | emp_position |
++-----------+-----------+--------------+
+| IT        | Kedar     | Devops       |
+| IT        | Parag     | Sr. Devops   |
++-----------+-----------+--------------+
+2 rows in set (0.001 sec)
+
+mysql> select e.emp_position, d.dept_name, p.proj_cost from employee e join dept d on e.dept_id = d.dept_id join project p on d.dept_id = p.dept_id;
++--------------+-----------+-----------+
+| emp_position | dept_name | proj_cost |
++--------------+-----------+-----------+
+| Devops       | IT        | 100000.00 |
+| Sr. Devops   | IT        | 100000.00 |
+| Devops       | IT        |  90000.00 |
+| Sr. Devops   | IT        |  90000.00 |
++--------------+-----------+-----------+
+4 rows in set (0.001 sec)
+
+mysql> select e.emp_position, d.dept_name, p.proj_cost from employee e join dept d on e.dept_id = d.dept_id join project p on d.dept_id = p.dept_id where p.proj_cost > 90000;
++--------------+-----------+-----------+
+| emp_position | dept_name | proj_cost |
++--------------+-----------+-----------+
+| Devops       | IT        | 100000.00 |
+| Sr. Devops   | IT        | 100000.00 |
++--------------+-----------+-----------+
+2 rows in set (0.001 sec)
+
+mysql> select proj_name from project where proj_year = 2000;
++-----------+
+| proj_name |
++-----------+
+| ITDeals   |
++-----------+
+1 row in set (0.001 sec)
+
+mysql> select proj_name from project where proj_year = 2005;
+Empty set (0.000 sec)
+
+mysql> select proj_name from project where proj_year = 2003;
+Empty set (0.001 sec)
+
+mysql> mysql> select proj_name from project where proj_year = 2001;
++-----------+
+| proj_name |
++-----------+
+| IT-devs   |
++-----------+
+1 row in set (0.001 sec)
+
+mysql> select proj_name from project where proj_year = 2004;
++-----------+
+| proj_name |
++-----------+
+| Salezzz   |
++-----------+
+1 row in set (0.001 sec)
+
+mysql> select d.dept_name, count(e.emp_id) as total_emp from dept d join employee e on d.dept_id = e.dept_id;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'pict.d.dept_name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select d.dept_name, count(e.emp_id) as total_emp from dept d join employee e on d.dept_id = e.dept_id group by dept_name;
++-----------+-----------+
+| dept_name | total_emp |
++-----------+-----------+
+| IT        |         2 |
+| Computer  |         2 |
+| Marketing |         1 |
+| HR        |         2 |
++-----------+-----------+
+4 rows in set (0.001 sec)
+
+mysql> select d.dept_name, count(e.emp_id) as total_emp from dept d join employee e on d.dept_id = e.dept_id group by dept_name where count(e.emp_id) > 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where count(e.emp_id) > 1' at line 1
+mysql> select d.dept_name, count(e.emp_id) as total_emp from dept d join employee e on d.dept_id = e.dept_id group by dept_name having count(e.emp_id) > 1;
++-----------+-----------+
+| dept_name | total_emp |
++-----------+-----------+
+| IT        |         2 |
+| Computer  |         2 |
+| HR        |         2 |
++-----------+-----------+
+3 rows in set (0.001 sec)
+
+mysql> select count(e.emp_id), p.proj_year from employee e join project p on e.dept_id = p.dept_id where p.proj_year < 2009;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'pict.p.proj_year'; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(*) as total_emp from employee where emp_joindate < "2009-01-01" AND proj_id IS NOT NULL:
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':' at line 1
+mysql> select count(*) as total_emp from employee where emp_joindate < "2009-01-01" AND proj_id IS NOT NULL;
+ERROR 1054 (42S22): Unknown column 'proj_id' in 'where clause'
+mysql> select count(distinct e.emp_id) from employee e join project p on e.dept_id = p.dept_id where e.emp_joindate < "2009-01-01";
++--------------------------+
+| count(distinct e.emp_id) |
++--------------------------+
+|                        1 |
++--------------------------+
+1 row in set (0.003 sec)
+
+mysql> select * from employee;
++--------+---------+-----------+-----------+--------------+------------+--------------+
+| emp_id | dept_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+|   1003 |       1 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   |
+|   1004 |       4 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   |
+|   1008 |       5 | Shanaya   | Malhotra  | Sr. HR       |   65000.00 | 2009-12-01   |
+|   1009 |       5 | Dhruv     | Malhotra  | Jr. HR       |   45000.00 | 2016-02-18   |
+|   1010 |       2 | Raj       | Deshpande | Jr. SDE      |   55000.00 | 2020-02-18   |
+|   1011 |       2 | Jayshree  | Mahajan   | Sr. SDE      |   75000.00 | 2000-02-18   |
+|   1012 |       1 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   |
++--------+---------+-----------+-----------+--------------+------------+--------------+
+7 rows in set (0.001 sec)
+
+mysql> select * from project;
++---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     101 |       1 | ITDeals   | Pune          | 100000.00 |      2000 |
+|     103 |       1 | IT-devs   | Pune          |  90000.00 |      2001 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
++---------+---------+-----------+---------------+-----------+-----------+
+3 rows in set (0.000 sec)
+
+mysql> insert into project(dept_id, proj_name, proj_location, proj_cost, proj_year) values (2, "NewITDeal", "Noida", 75000, "2000");
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select * from project;                                                                                               +---------+---------+-----------+---------------+-----------+-----------+
+| proj_id | dept_id | proj_name | proj_location | proj_cost | proj_year |
++---------+---------+-----------+---------------+-----------+-----------+
+|     101 |       1 | ITDeals   | Pune          | 100000.00 |      2000 |
+|     103 |       1 | IT-devs   | Pune          |  90000.00 |      2001 |
+|     105 |       3 | Salezzz   | Mumbai        | 250000.00 |      2004 |
+|     106 |       2 | NewITDeal | Noida         |  75000.00 |      2000 |
++---------+---------+-----------+---------------+-----------+-----------+
+4 rows in set (0.000 sec)
+
+mysql> select count(distinct e.emp_id) from employee e join project p on e.dept_id = p.dept_id where e.emp_joindate < "2009-01-01";
++--------------------------+
+| count(distinct e.emp_id) |
++--------------------------+
+|                        2 |
++--------------------------+
+1 row in set (0.001 sec)
+
+mysql> show views;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'views' at line 1
+mysql> show tables;
++----------------+
+| Tables_in_pict |
++----------------+
+| dept           |
+| emp_view       |
+| employee       |
+| project        |
+| student        |
++----------------+
+5 rows in set (0.002 sec)
+
+mysql> create view emp_dept_view as select * from employee e natural join dept d;
+Query OK, 0 rows affected (0.004 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_pict |
++----------------+
+| dept           |
+| emp_dept_view  |
+| emp_view       |
+| employee       |
+| project        |
+| student        |
++----------------+
+6 rows in set (0.002 sec)
+
+mysql> select * from emp_dept_view;
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+| dept_id | emp_id | emp_fname | emp_lname | emp_position | emp_salary | emp_joindate | dept_name | dept_location |
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+|       1 |   1003 | Kedar     | Makode    | Devops       |  990000.00 | 2024-05-07   | IT        | Pune          |
+|       1 |   1012 | Parag     | Mahajan   | Sr. Devops   |   95000.00 | 2007-02-10   | IT        | Pune          |
+|       2 |   1010 | Raj       | Deshpande | Jr. SDE      |   55000.00 | 2020-02-18   | Computer  | Mumbai        |
+|       2 |   1011 | Jayshree  | Mahajan   | Sr. SDE      |   75000.00 | 2000-02-18   | Computer  | Mumbai        |
+|       4 |   1004 | Piyush    | Patil     | Sr. Market   |   40000.00 | 2021-09-02   | Marketing | Delhi         |
+|       5 |   1008 | Shanaya   | Malhotra  | Sr. HR       |   65000.00 | 2009-12-01   | HR        | Noida         |
+|       5 |   1009 | Dhruv     | Malhotra  | Jr. HR       |   45000.00 | 2016-02-18   | HR        | Noida         |
++---------+--------+-----------+-----------+--------------+------------+--------------+-----------+---------------+
+7 rows in set (0.001 sec)
+
+mysql> mysql> insert into emp_dept_view(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate, dept_name, dept_location) values(3, "Tanvi", "Deshmukh", "Sr. SDE", 90000, "2003-03-09", "Sales", "Chennai");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(dept_id, emp_fname, emp_lname, emp_position, emp_salary, emp_joindate, dept_nam' at line 1
+mysql> create view dept_view on select * from dept;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on select * from dept' at line 1
+mysql> create view dept_view as select * from dept;
+Query OK, 0 rows affected (0.003 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_pict |
++----------------+
+| dept           |
+| dept_view      |
+| emp_dept_view  |
+| emp_view       |
+| employee       |
+| project        |
+| student        |
++----------------+
+7 rows in set (0.002 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
++---------+-----------+---------------+
+5 rows in set (0.000 sec)
+
+mysql> select * from dept_view;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
++---------+-----------+---------------+
+5 rows in set (0.001 sec)
+
+mysql> insert into dept_view values(6, "Ops", "Hyderabad");
+Query OK, 1 row affected (0.002 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
++---------+-----------+---------------+
+6 rows in set (0.000 sec)
+
+mysql> select * from dept_view;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
++---------+-----------+---------------+
+6 rows in set (0.000 sec)
+
+mysql> insert into dept_view values(7, "Logistics", "Roorkee");
+Query OK, 1 row affected (0.002 sec)
+
+mysql> select * from dept_view;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
+|       7 | Logistics | Roorkee       |
++---------+-----------+---------------+
+7 rows in set (0.001 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
+|       7 | Logistics | Roorkee       |
++---------+-----------+---------------+
+7 rows in set (0.000 sec)
+
+mysql> update dept_view set dept_location = "Indore" where dept_name = "Logistics";
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
+|       7 | Logistics | Indore        |
++---------+-----------+---------------+
+7 rows in set (0.000 sec)
+
+mysql> select * from dept_view;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
+|       7 | Logistics | Indore        |
++---------+-----------+---------------+
+7 rows in set (0.001 sec)
+
+mysql> delete from dept_view where dept_id = 7;
+Query OK, 1 row affected (0.002 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
++---------+-----------+---------------+
+6 rows in set (0.000 sec)
+
+mysql> select * from dept_view;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
++---------+-----------+---------------+
+6 rows in set (0.001 sec)
+
+mysql> drop view dept_view;
+Query OK, 0 rows affected (0.004 sec)
+
+mysql> select * from dept;
++---------+-----------+---------------+
+| dept_id | dept_name | dept_location |
++---------+-----------+---------------+
+|       1 | IT        | Pune          |
+|       2 | Computer  | Mumbai        |
+|       3 | Sales     | Chennai       |
+|       4 | Marketing | Delhi         |
+|       5 | HR        | Noida         |
+|       6 | Ops       | Hyderabad     |
++---------+-----------+---------------+
+6 rows in set (0.000 sec)
+
+mysql> select * from dept_view;
+ERROR 1146 (42S02): Table 'pict.dept_view' doesn't exist
+mysql> mysql> 
+mysql> delimiter //
+mysql> create procedure greeting (OUT person_name)
+    -> BEGIN
+    -> select emp_fname into person_name from employee where emp_id = 1003;
+    -> END
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+BEGIN
+select emp_fname into person_name from employee where emp_id = 1003;
+END' at line 1
+mysql> delimiter ;
+mysql> delimiter //
+mysql> create procedure greeting(OUT person_name varchar(20))
+    -> BEGIN
+    -> select emp_fname into person_name from employee where emp_id = 1003;
+    -> END
+    -> //
+Query OK, 0 rows affected (0.010 sec)
+
+mysql> delimiter ;
+mysql> set person_name = " ";
+ERROR 1193 (HY000): Unknown system variable 'person_name'
+mysql> set @person_name = " ";
+Query OK, 0 rows affected (0.000 sec)
+
+mysql> call greeting(person_name);
+ERROR 1054 (42S22): Unknown column 'person_name' in 'field list'
+mysql> call greeting(@person_name);
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select @person_name;
++--------------+
+| @person_name |
++--------------+
+| Kedar        |
++--------------+
+1 row in set (0.000 sec)
+
+mysql> delimiter //
+mysql> create procedure greeting(INOUT person_name varchar(20))
+    -> select concat("Hello", person_name, "!");
+    -> select emp_fname into person_name from employee where emp_id = 1003;
+    -> 
+
+^C
+mysql> delimiter ;
+mysql> delimiter //
+mysql> create procedure greeting(INOUT person_name varchar(20))
+    -> BEGIN
+    -> select concat("Hello", person_name, "!");
+    -> select emp_fname into person_name from employee where emp_id = 1003;
+    -> END
+    -> //
+ERROR 1304 (42000): PROCEDURE greeting already exists
+mysql> create procedure greetinggg(INOUT person_name varchar(20))
+    -> BEGIN
+    -> select concat("Hello", person_name, "!");
+    -> select emp_fname into person_name from employee where emp_id = 1003;                               -> END
+    -> //
+Query OK, 0 rows affected (0.002 sec)
+
+mysql> delimiter ;
+mysql> set @person_name = "Tanishka";
+Query OK, 0 rows affected (0.000 sec)
+
+mysql> call greeting(@person_name);
+Query OK, 1 row affected (0.001 sec)
+
+mysql> call greetinggg(@person_name);
++-----------------------------------+
+| concat("Hello", person_name, "!") |
++-----------------------------------+
+| HelloKedar!                       |
++-----------------------------------+
+1 row in set (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select @person_name;
++--------------+
+| @person_name |
++--------------+
+| Kedar        |
++--------------+
+1 row in set (0.000 sec)
+
+mysql> delimiter //
+mysql> create procedure my_greeting(INOUT person_name)
+    -> BEGIN
+    -> declare temp_person_name varchar(20);
+    -> set temp_person_name = person_name;
+    -> select concat("Hello, ", temp_person_name, "!") as Greeting;
+    -> select emp_fname into person_name from employee where emp_id = 1003;
+    -> END
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+BEGIN
+declare temp_person_name varchar(20);
+set temp_person_name = person_name' at line 1
+mysql> delimiter ;
+mysql> delimiter //
+mysql> create procedure my_greeting(INOUT person_name varchar(20))
+    -> BEGIN
+    -> declare temp_person_name varchar(20);
+    -> set temp_person_name = person_name;
+    -> select concat("Hello, ", temp_person_name, "!") as Greeting;
+    -> select emp_fname into person_name from employee where emp_id = 1003;                               -> END                                                                                                -> //                                                                                             Query OK, 0 rows affected (0.002 sec)
+
+mysql> delimiter ;
+mysql> set @person_name = "Tanishka";
+Query OK, 0 rows affected (0.000 sec)
+
+mysql> call my_greeting(@person_name);
++------------------+
+| Greeting         |
++------------------+
+| Hello, Tanishka! |
++------------------+
+1 row in set (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+mysql> select @person_name;
++--------------+
+| @person_name |
++--------------+
+| Kedar        |
++--------------+
+1 row in set (0.000 sec)
+
+mysql> 

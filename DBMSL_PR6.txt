@@ -1,0 +1,64 @@
+1. Create Tables
+Create table old_table(
+	id integer primary key,
+	name varchar(20),
+	city varchar(20)
+);
+
+Create table new_table(
+	id integer primary key,
+	name varchar(20),
+	city varchar(20)
+);
+
+Insert into new_table values
+(1, 'Tanishka', 'Pune'),
+(2, 'Aarav', 'Mumbai');
+
+Insert into old_table values
+(1, 'Tanishka', 'Pune'),
+(2, 'Aarav', 'Mumbai'),
+(3, 'Kedar', 'Nagpur'),
+(4, 'Riya', 'Delhi'),
+(5, 'Ronit', 'Banglore'),
+(6, 'Seegasha', 'Noida');
+
+2. Procedure
+Delimiter //
+Create procedure merge_data()
+Begin
+	Declare done integer default 0;
+	Declare p_id integer;
+	Declare p_name varchar(20);
+	Declare p_city varchar(20);
+
+	Declare mergedata_cur cursor for select id, name, city from old_table;
+
+	Declare continue handler for not found set done = 1;
+
+	open mergedata_cur;
+
+	transfer_loop: loop
+	fetch mergedata_cur into p_id, p_name, p_city;
+	if done then
+	leave transfer_loop;
+	end if;
+
+	if (select count(*) from new_table where id = p_id) = 0 then
+	insert into new_table values(p_id, p_name, p_city);
+	end if;
+
+	end loop;
+
+	close mergedata_cur;
+
+End
+//
+Delimiter ;
+Call merge_data();
+Select * from old_table;
+Select * from new_table;
+
+
+
+

@@ -1,0 +1,377 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+--------------------+
+30 rows in set (0.008 sec)
+
+mysql> SHOW PROCEDURE STATUS WHERE Db = DATABASE();
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| Db   | Name        | Type      | Language | Definer        | Modified            | Created             | Security_type | Comment | character_set_client | collation_connection | Database Collation |
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| PICT | greeting    | PROCEDURE | SQL      | root@localhost | 2025-11-06 12:54:58 | 2025-11-06 12:54:58 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | greetinggg  | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:03:33 | 2025-11-06 13:03:33 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | my_greeting | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:09:52 | 2025-11-06 13:09:52 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | proc_grade  | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:54:06 | 2025-11-06 13:54:06 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+4 rows in set (0.001 sec)
+
+mysql> show procedure status where db = PICT;
+ERROR 1054 (42S22): Unknown column 'PICT' in 'where clause'
+mysql> show procedure status where db = database();
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| Db   | Name        | Type      | Language | Definer        | Modified            | Created             | Security_type | Comment | character_set_client | collation_connection | Database Collation |
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| PICT | greeting    | PROCEDURE | SQL      | root@localhost | 2025-11-06 12:54:58 | 2025-11-06 12:54:58 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | greetinggg  | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:03:33 | 2025-11-06 13:03:33 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | my_greeting | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:09:52 | 2025-11-06 13:09:52 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | proc_grade  | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:54:06 | 2025-11-06 13:54:06 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+4 rows in set (0.002 sec)
+
+mysql> clear
+mysql> exit
+Bye
+tanishka@Tanishka ~ % clear
+
+tanishka@Tanishka ~ % mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 41
+Server version: 8.4.6 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| PICT               |
+| sys                |
++--------------------+
+5 rows in set (0.001 sec)
+
+mysql> use PICT;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show procedure status where db = database();
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| Db   | Name        | Type      | Language | Definer        | Modified            | Created             | Security_type | Comment | character_set_client | collation_connection | Database Collation |
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| PICT | greeting    | PROCEDURE | SQL      | root@localhost | 2025-11-06 12:54:58 | 2025-11-06 12:54:58 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | greetinggg  | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:03:33 | 2025-11-06 13:03:33 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | my_greeting | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:09:52 | 2025-11-06 13:09:52 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| PICT | proc_grade  | PROCEDURE | SQL      | root@localhost | 2025-11-06 13:54:06 | 2025-11-06 13:54:06 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
++------+-------------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+4 rows in set (0.002 sec)
+
+mysql> delimiter //
+mysql> create procedure insert_info()
+    -> begin
+    -> declare continue handler for sqlexception
+    -> begin
+    -> select "An error occured while inserting data" as Error_Message;
+    -> end
+    -> insert into student_info values(1, "Tanishka", 98);
+    -> end
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert into student_info values(1, "Tanishka", 98);
+end' at line 7
+mysql> delimiter //
+mysql> create procedure insert_info()
+    -> BEGIN
+    -> declare continue handler for sqlexception
+    -> BEGIN
+    -> select "An error occured while insertion of data" as Error_Message;
+    -> END;
+    -> insert into student_info values(1, "Tanishka", 93);
+    -> END;
+    -> //
+Query OK, 0 rows affected (0.002 sec)
+
+mysql> call insert_info();
+    -> //
++------------------------------------------+
+| Error_Message                            |
++------------------------------------------+
+| An error occured while insertion of data |
++------------------------------------------+
+1 row in set (0.001 sec)
+
+Query OK, 0 rows affected (0.001 sec)
+
+mysql> delimiter ;
+mysql> Create table borrower(
+    -> rollno integer,
+    -> name varchar(20) not null,
+    -> dateofissue date default "2025-01-01",
+    -> nameofbook varchar(30) not null,
+    -> status enum("Issued", "Returned") default "Issued",
+    -> primary key(rollno, nameofbook)
+    -> );
+Query OK, 0 rows affected (0.008 sec)
+
+mysql> Create table fine(
+    -> rollno integer,
+    -> dateofreturn date,
+    -> amount decimal(6, 2)
+    -> );
+Query OK, 0 rows affected (0.006 sec)
+
+mysql> Insert into borrower values
+    -> (1, 'Aarav',    '2025-11-04', 'Clean Code', 'Issued'),         
+    -> (2, 'Isha',     '2025-11-01', 'The Pragmatic Programmer', 'Issued'), 
+    -> (3, 'Rohan',    '2025-10-22', 'Data Structures in C', 'Issued'), 
+    -> (4, 'Mira',     '2025-09-15', 'Introduction to Algorithms', 'Issued'), 
+    -> (5, 'Tanish',   '2025-05-10', 'Database Systems', 'Issued'),   
+    -> (6, 'Neha',     '2024-11-05', 'Operating System Concepts', 'Issued'),
+    -> (7, 'Karan',    '2023-08-25', 'Computer Networks', 'Issued'),  
+    -> (8, 'Priya',    '2025-10-01', 'Python Crash Course', 'Issued'),
+    -> (9, 'Sahil',    '2025-10-10', 'C++ Programming', 'Returned'),
+    -> (10,'Aditi',    '2025-09-20', 'Artificial Intelligence', 'Returned');
+Query OK, 10 rows affected (0.003 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from borrower;
++--------+--------+-------------+----------------------------+----------+
+| rollno | name   | dateofissue | nameofbook                 | status   |
++--------+--------+-------------+----------------------------+----------+
+|      1 | Aarav  | 2025-11-04  | Clean Code                 | Issued   |
+|      2 | Isha   | 2025-11-01  | The Pragmatic Programmer   | Issued   |
+|      3 | Rohan  | 2025-10-22  | Data Structures in C       | Issued   |
+|      4 | Mira   | 2025-09-15  | Introduction to Algorithms | Issued   |
+|      5 | Tanish | 2025-05-10  | Database Systems           | Issued   |
+|      6 | Neha   | 2024-11-05  | Operating System Concepts  | Issued   |
+|      7 | Karan  | 2023-08-25  | Computer Networks          | Issued   |
+|      8 | Priya  | 2025-10-01  | Python Crash Course        | Issued   |
+|      9 | Sahil  | 2025-10-10  | C++ Programming            | Returned |
+|     10 | Aditi  | 2025-09-20  | Artificial Intelligence    | Returned |
++--------+--------+-------------+----------------------------+----------+
+10 rows in set (0.001 sec)
+
+mysql> delimiter //
+mysql> create procedure calculate_fine(IN p_rollno integer, IN p_nameofbook varchar(50))
+    -> BEGIN
+    -> declare p_dateofissue date;
+    -> declare p_days integer;
+    -> declare p_fineamount decimal(6,2);
+    -> select dateofissue into p_dateofissue from borrower where rollno = p_rollno and nameofbook = p_nameofbook and status = "Issued"; 
+    -> set p_days = daysdiff(current_date, p_dateofissue);
+    -> if p_days between 15 and 30 then set p_fineamount = 5 * p_days;
+    -> elseif p_days > 30 then set p_fineamount = 50 * p_days;
+    -> end if;
+    -> insert into fine values(p_rollno, current_date, p_fineamount);
+    -> update borrower set status = "Returned" where rollno = p_rollno and nameofbook = p_nameofbook;
+    -> END
+    -> //
+Query OK, 0 rows affected (0.003 sec)
+
+mysql> delimiter ;
+mysql> call calculate_fine(5, "Database Systems");
+ERROR 1305 (42000): FUNCTION pict.daysdiff does not exist
+mysql> delimiter //
+mysql> Create procedure calculate_fineee(IN p_rollno integer, IN p_nameofbook)
+    -> Begin
+    -> Declare p_dateofissue date;
+    -> Declare p_days integer;
+    -> Declare p_fineamount decimal(6,2) default 0;
+    -> 
+    -> Declare exit handler for sqlexception
+    -> Begin
+    -> Select "Error: Record not found or an SQL error occurred!" As Error_Message;
+    -> End
+    -> 
+    -> Select dateofissue into p_dateofissue from borrower where rollno = p_rollno and nameofbook = p_nameofbook and status = "Issued";
+    -> 
+    -> Set p_days = datediff(curdate(), p_dateofissue);
+    -> 
+    -> If p_days < 15 then set p_fineamount = 0;
+    -> Elseif p_days between 15 and 30 then set p_fineamount = 5 * p_days;
+    -> Else set p_fineamount = 50 * p_days;
+    -> End if;
+    -> 
+    -> Update borrower set status = "Returned" where rollno = p_rollno and nameofbook = p_nameofbook;
+    -> 
+    -> If p_fineamount > 0 then
+    -> Insert into fine values(p_rollno, curdate(), p_fineamount);
+    -> End if
+    -> 
+    -> Select p_rollno as RollNo, p_nameofbook as NameOfBook, p_days as DaysBorrowed, p_fineamount as FineAmount;
+    -> End
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+Begin
+Declare p_dateofissue date;
+Declare p_days integer;
+Declare p_fineamount' at line 1
+mysql> delimiter //
+mysql> Create procedure calculate_fineee(IN p_rollno integer, IN p_nameofbook varchar(30))
+    -> Begin
+    -> Declare p_dateofissue date;
+    -> Declare p_days integer;
+    -> Declare p_fineamount decimal(6,2) default 0;
+    -> 
+    -> Declare exit handler for sqlexception
+    -> Begin
+    -> Select "Error: Record not found or an SQL error occurred!" As Error_Message;
+    -> End
+    -> 
+    -> Select dateofissue into p_dateofissue from borrower where rollno = p_rollno and nameofbook = p_nameofbook and status = "Issued";
+    -> 
+    -> Set p_days = datediff(curdate(), p_dateofissue);
+    -> 
+    -> If p_days < 15 then set p_fineamount = 0;
+    -> Elseif p_days between 15 and 30 then set p_fineamount = 5 * p_days;
+    -> Else set p_fineamount = 50 * p_days;
+    -> End if;
+    -> 
+    -> Update borrower set status = "Returned" where rollno = p_rollno and nameofbook = p_nameofbook;
+    -> 
+    -> If p_fineamount > 0 then
+    -> Insert into fine values(p_rollno, curdate(), p_fineamount);
+    -> End if
+    -> 
+    -> Select p_rollno as RollNo, p_nameofbook as NameOfBook, p_days as DaysBorrowed, p_fineamount as FineAmount;
+    -> End
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Select dateofissue into p_dateofissue from borrower where rollno = p_rollno and ' at line 12
+mysql> Create procedure calculate_fineee(IN p_rollno integer, IN p_nameofbook varchar(30))
+    -> Begin
+    -> Declare p_dateofissue date;
+    -> Declare p_days integer;
+    -> Declare p_fineamount decimal(6,2) default 0;
+    -> 
+    -> Declare exit handler for sqlexception
+    -> Begin
+    -> Select "Error: Record not found or an SQL error occurred!" As Error_Message;
+    -> End;
+    -> 
+    -> Select dateofissue into p_dateofissue from borrower where rollno = p_rollno and nameofbook = p_nameofbook and status = "Issued";
+    -> 
+    -> Set p_days = datediff(curdate(), p_dateofissue);
+    -> 
+    -> If p_days < 15 then set p_fineamount = 0;
+    -> Elseif p_days between 15 and 30 then set p_fineamount = 5 * p_days;
+    -> Else set p_fineamount = 50 * p_days;
+    -> End if;
+    -> 
+    -> Update borrower set status = "Returned" where rollno = p_rollno and nameofbook = p_nameofbook;
+    -> 
+    -> If p_fineamount > 0 then
+    -> Insert into fine values(p_rollno, curdate(), p_fineamount);
+    -> End if;
+    -> 
+    -> Select p_rollno as RollNo, p_nameofbook as NameOfBook, p_days as DaysBorrowed, p_fineamount as FineAmount;
+    -> End;
+    -> //
+Query OK, 0 rows affected (0.002 sec)
+
+mysql> delimiter ;
+mysql> call calculate_fineee(1, "Clean Code");
++--------+------------+--------------+------------+
+| RollNo | NameOfBook | DaysBorrowed | FineAmount |
++--------+------------+--------------+------------+
+|      1 | Clean Code |            2 |       0.00 |
++--------+------------+--------------+------------+
+1 row in set (0.002 sec)
+
+Query OK, 0 rows affected (0.002 sec)
+
+mysql> select * from borrower;
++--------+--------+-------------+----------------------------+----------+
+| rollno | name   | dateofissue | nameofbook                 | status   |
++--------+--------+-------------+----------------------------+----------+
+|      1 | Aarav  | 2025-11-04  | Clean Code                 | Returned |
+|      2 | Isha   | 2025-11-01  | The Pragmatic Programmer   | Issued   |
+|      3 | Rohan  | 2025-10-22  | Data Structures in C       | Issued   |
+|      4 | Mira   | 2025-09-15  | Introduction to Algorithms | Issued   |
+|      5 | Tanish | 2025-05-10  | Database Systems           | Issued   |
+|      6 | Neha   | 2024-11-05  | Operating System Concepts  | Issued   |
+|      7 | Karan  | 2023-08-25  | Computer Networks          | Issued   |
+|      8 | Priya  | 2025-10-01  | Python Crash Course        | Issued   |
+|      9 | Sahil  | 2025-10-10  | C++ Programming            | Returned |
+|     10 | Aditi  | 2025-09-20  | Artificial Intelligence    | Returned |
++--------+--------+-------------+----------------------------+----------+
+10 rows in set (0.000 sec)
+
+mysql> select * from fine;
+Empty set (0.002 sec)
+
+mysql> call calculate_fineee(5, "Database Systems");
++--------+------------------+--------------+------------+
+| RollNo | NameOfBook       | DaysBorrowed | FineAmount |
++--------+------------------+--------------+------------+
+|      5 | Database Systems |          180 |    9000.00 |
++--------+------------------+--------------+------------+
+1 row in set (0.002 sec)
+
+Query OK, 0 rows affected (0.002 sec)
+
+mysql> select * from borrower;
++--------+--------+-------------+----------------------------+----------+
+| rollno | name   | dateofissue | nameofbook                 | status   |
++--------+--------+-------------+----------------------------+----------+
+|      1 | Aarav  | 2025-11-04  | Clean Code                 | Returned |
+|      2 | Isha   | 2025-11-01  | The Pragmatic Programmer   | Issued   |
+|      3 | Rohan  | 2025-10-22  | Data Structures in C       | Issued   |
+|      4 | Mira   | 2025-09-15  | Introduction to Algorithms | Issued   |
+|      5 | Tanish | 2025-05-10  | Database Systems           | Returned |
+|      6 | Neha   | 2024-11-05  | Operating System Concepts  | Issued   |
+|      7 | Karan  | 2023-08-25  | Computer Networks          | Issued   |
+|      8 | Priya  | 2025-10-01  | Python Crash Course        | Issued   |
+|      9 | Sahil  | 2025-10-10  | C++ Programming            | Returned |
+|     10 | Aditi  | 2025-09-20  | Artificial Intelligence    | Returned |
++--------+--------+-------------+----------------------------+----------+
+10 rows in set (0.000 sec)
+
+mysql> select * from fine;
++--------+--------------+---------+
+| rollno | dateofreturn | amount  |
++--------+--------------+---------+
+|      5 | 2025-11-06   | 9000.00 |
++--------+--------------+---------+
+1 row in set (0.000 sec)
+
+mysql> call calculate_fineee(15, "Database Systems");
++--------+------------------+--------------+------------+
+| RollNo | NameOfBook       | DaysBorrowed | FineAmount |
++--------+------------------+--------------+------------+
+|     15 | Database Systems |         NULL |       NULL |
++--------+------------------+--------------+------------+
+1 row in set (0.001 sec)
+
+Query OK, 0 rows affected (0.001 sec)
+
+mysql> select * from borrower;
++--------+--------+-------------+----------------------------+----------+
+| rollno | name   | dateofissue | nameofbook                 | status   |
++--------+--------+-------------+----------------------------+----------+
+|      1 | Aarav  | 2025-11-04  | Clean Code                 | Returned |
+|      2 | Isha   | 2025-11-01  | The Pragmatic Programmer   | Issued   |
+|      3 | Rohan  | 2025-10-22  | Data Structures in C       | Issued   |
+|      4 | Mira   | 2025-09-15  | Introduction to Algorithms | Issued   |
+|      5 | Tanish | 2025-05-10  | Database Systems           | Returned |
+|      6 | Neha   | 2024-11-05  | Operating System Concepts  | Issued   |
+|      7 | Karan  | 2023-08-25  | Computer Networks          | Issued   |
+|      8 | Priya  | 2025-10-01  | Python Crash Course        | Issued   |
+|      9 | Sahil  | 2025-10-10  | C++ Programming            | Returned |
+|     10 | Aditi  | 2025-09-20  | Artificial Intelligence    | Returned |
++--------+--------+-------------+----------------------------+----------+
+10 rows in set (0.001 sec)
+
+mysql> select * from fine;
++--------+--------------+---------+
+| rollno | dateofreturn | amount  |
++--------+--------------+---------+
+|      5 | 2025-11-06   | 9000.00 |
++--------+--------------+---------+
+1 row in set (0.000 sec)
+
+mysql> 

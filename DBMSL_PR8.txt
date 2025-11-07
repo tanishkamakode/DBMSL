@@ -1,0 +1,86 @@
+package exam_mysql;
+import java.sql.*;
+
+public class Sample {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/PICT";
+		String user = "root";
+		String password = "root";
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, user, password);
+			System.out.println("Connection Established Successfully!");
+			create(conn);
+			read(conn);
+			update(conn);
+			delete(conn);
+			conn.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+
+	}
+
+	private static void create(Connection conn) throws SQLException {
+		String sql = "insert into student(name, marks) values('Ronit', 97)";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		int rows = ps.executeUpdate();
+		
+		if(rows > 0) {
+			System.out.println(rows + " records inserted!");
+		} else {
+			System.out.println("Error!");
+		}
+		ps.close();
+	}
+
+	private static void read(Connection conn) throws SQLException {
+		String sql = "select * from student";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		
+		System.out.println("STUDENT RECORDS: ");
+		System.out.println("Roll no" + "\t|" + "Name" + "\t|" + "Marks");
+		
+		while(rs.next()) {
+			int rollno = rs.getInt("rollno");
+			String name = rs.getString("name");
+			double marks = rs.getDouble("marks");
+			
+			System.out.println(rollno + "\t|" + name + "\t|" + marks);
+		}
+		
+		rs.close();
+		ps.close();
+	}
+
+	private static void update(Connection conn) throws SQLException {
+		String sql = "update student set marks = 98 where name = 'Tanishka'";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		int rows = ps.executeUpdate();
+		
+		if(rows > 0) {
+			System.out.println(rows + " records updated!");
+		} else {
+			System.out.println("Error!");
+		}
+		ps.close();
+	}
+
+	private static void delete(Connection conn) throws SQLException {
+		String sql = "delete from student where name = 'Ronit'";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		int rows = ps.executeUpdate();
+		
+		if(rows > 0) {
+			System.out.println(rows + " records deleted!");
+		} else {
+			System.out.println("Error!");
+		}
+		ps.close();
+	}
+
+}

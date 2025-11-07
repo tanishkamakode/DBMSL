@@ -1,0 +1,45 @@
+1. Creating tables
+Create table library(
+	id integer primary key,
+	title varchar(50) not null,
+	author varchar(30)
+);
+
+Create table lib_audit(
+	id integer,
+	title varchar(50) not null,
+	author varchar(30),
+	action varchar(10),
+	time datetime
+);
+
+Insert into library values
+(1, 'Atomic Habits', 'James Clear'),
+(2, 'Ikigai', 'Hector Garcia'),
+(3, 'Design of everyday things', 'Don Norman'),
+(4, 'Deep Work', 'Cal Newport');
+
+2. Create triggers
+Delimiter //
+Create trigger update_trigger
+Before update on library for each row
+BEGIN
+Insert into lib_audit values(old.id, old.title, old.author, 'UPDATE', now());
+END;
+//
+Delimiter ;
+
+Delimiter //
+Create trigger delete_trigger
+Before delete on library for each row
+BEGIN
+Insert into lib_audit values(old.id, old.title, old.author, 'DELETE', now());
+END;
+//
+Delimiter ;
+
+3. Try
+Update library set title = 'Atomic Habits - II' where id = 1;
+
+Delete from library where id = 1;
+

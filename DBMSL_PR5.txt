@@ -1,0 +1,67 @@
+PL/SQL Simple Procedure:
+
+1. Greeting message
+Delimiter //
+Create procedure my_greeting(INOUT person_name varchar(20))
+BEGIN
+Declare temp_person_name varchar(20);
+Set temp_person_name = person_name;
+Select concat("Hello, ", temp_person_name, "!");
+Select emp_fname into person_name from employee where emp_id = 1003;
+END
+//
+
+Delimiter ;
+Set @person_name = "Tanishka";
+Call my_greeting(@person_name);
+	> Hello, Tanishka
+Select @person_name
+	> Kedar
+
+
+
+2. Proc_Grade procedure
+create table stud_marks(
+	name varchar(20) not null,
+	marks integer not null
+);
+
+create table result(
+	rollno integer primary key auto_increment,
+	name varchar(20),
+	class varchar(20)
+);
+
+insert into stud_marks values
+('Tanishka', 1200),
+('Ronit', 955),
+('Kedar', 880),
+('Seegasha', 810),
+('Devashri', 990);
+
+Delimiter //
+Create procedure proc_grade(IN p_name varchar(20), IN p_marks integer, OUT p_class varchar(20))
+BEGIN
+If p_marks between 990 and 1500 then
+Set p_class = "Distinction";
+Elsif p_marks between 900 and 989 then
+Set p_class = "First Class";
+Elsif p_marks between 825 and 899 then
+Set p_class = "Higher Second Class";
+Else
+Set p_class = "Pass";
+End if
+
+Insert into result(name, class) values(p_name, p_class);
+END
+//
+Delimiter ;
+
+Set @class = " ";
+Call proc_grade("Tanishka", 1200, @class);
+Call proc_grade("Ronit", 955, @class);
+Call proc_grade("Kedar", 880, @class);
+Call proc_grade("Seegasha", 810, @class);
+Call proc_grade("Devashri", 990, @class);
+
+Select * from result;
