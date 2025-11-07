@@ -1,4 +1,4 @@
-Answers:
+EMPLOYEE:
 1. select * from employee natural join dept;
 2. select e.emp_fname, e.emp_position, d.dept_location, e.emp_joindate from employee e join dept d on e.dept_id = d.dept_id;
 3. select e.*, p.proj_id, p.proj_cost from employee e join project p on e.dept_id = p.dept_id where p.proj_location <> "Hyderabad";
@@ -14,3 +14,71 @@ insert into dept_view values(7, "Logistics", "Roorkee");
 update dept_view set dept_location = "Indore" where dept_name = "Logistics";
 delete from dept_view where dept_id = 7;
 drop view dept_view;
+
+STUDENT:
+-- 1. Student details and Placement details using NATURAL JOIN
+SELECT * 
+FROM Student NATURAL JOIN PlacementDrive;
+
+-- 2. All student details with company name who have conducted in same drive
+SELECT s.*, p.Pcompany_name
+FROM Student s
+JOIN PlacementDrive p ON s.Drive_id = p.Drive_id;
+
+-- 3. Student name and branch having package 5 LPA
+SELECT s.s_name, s.s_branch
+FROM Student s
+JOIN PlacementDrive p ON s.Drive_id = p.Drive_id
+WHERE p.Package = 500000;
+
+-- 4. Student names and company names with training fee > 20000
+SELECT s.s_name, t.Tcompany_name
+FROM Student s
+JOIN Training t ON s.T_id = t.T_id
+WHERE t.TFee > 20000;
+
+-- 5. All training details attended by "Shantanu" in 2011
+SELECT t.*
+FROM Student s
+JOIN Training t ON s.T_id = t.T_id
+WHERE s.s_name = 'Shantanu' AND YEAR(t.T_date) = 2011;
+
+-- 6. Total number of companies who conducted training before 2015
+SELECT COUNT(DISTINCT Tcompany_name) AS TotalCompanies
+FROM Training
+WHERE YEAR(T_date) < 2015;
+
+-- 7. Students with company 'Microsoft' and location 'Thane'
+SELECT s.s_name
+FROM Student s
+JOIN PlacementDrive p ON s.Drive_id = p.Drive_id
+WHERE p.Pcompany_name = 'Microsoft' AND p.Location = 'Thane';
+
+-- 8. Names of all students who joined 'Microsoft' training in 2015
+SELECT s.s_name
+FROM Student s
+JOIN Training t ON s.T_id = t.T_id
+WHERE t.Tcompany_name = 'Microsoft' AND YEAR(t.T_date) = 2015;
+
+-- 9. Create view showing Student and Training details
+CREATE VIEW StudentTrainingView AS
+SELECT s.s_id, s.s_name, s.s_branch, t.Tcompany_name, t.TFee, t.T_date
+FROM Student s
+JOIN Training t ON s.T_id = t.T_id;
+
+-- 10. Manipulation on simple view
+-- Insert
+INSERT INTO StudentTrainingView (s_id, s_name, s_branch, Tcompany_name, TFee, T_date)
+VALUES (211,'Shreya','Computer','CodeCraft',25000,'2020-01-15');
+
+-- Update
+UPDATE StudentTrainingView
+SET TFee = TFee * 1.1
+WHERE s_name = 'Shreya';
+
+-- Delete
+DELETE FROM StudentTrainingView
+WHERE s_name = 'Shreya';
+
+-- Drop view
+DROP VIEW StudentTrainingView;
